@@ -1,7 +1,7 @@
 "use strict";
 
 const db = require("../db");
-const bcrypt = require("../backend/node_modules/bcryptjs");
+const bcrypt = require("bcryptjs");
 
 const PERMISSOES_SISTEMA = [
   // Dashboard
@@ -344,6 +344,17 @@ async function criarEstruturaPrincipal() {
         ON DELETE SET NULL
     );
 
+    CREATE TABLE IF NOT EXISTS liderancas (
+  id SERIAL PRIMARY KEY,
+  bairro VARCHAR(120) NOT NULL,
+  nome VARCHAR(160) NOT NULL,
+  telefone VARCHAR(40),
+  observacao TEXT,
+  ativo BOOLEAN DEFAULT TRUE,
+  criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+
+  
     CREATE TABLE IF NOT EXISTS eleitores (
       id SERIAL PRIMARY KEY,
 
@@ -384,6 +395,10 @@ async function criarEstruturaPrincipal() {
       local_votacao VARCHAR(200),
 
       observacao TEXT,
+
+      lideranca_id INTEGER
+      REFERENCES liderancas(id)
+      ON DELETE SET NULL,
 
       criado_por_usuario_id INTEGER
         REFERENCES usuarios_lucas(id)
@@ -470,6 +485,15 @@ async function atualizarEstruturasExistentes() {
     ALTER TABLE eleitores
     ADD COLUMN IF NOT EXISTS atualizado_por_usuario_id INTEGER;
 
+    ALTER TABLE liderancas
+    ADD COLUMN IF NOT EXISTS ativo BOOLEAN DEFAULT TRUE;
+
+    ALTER TABLE liderancas
+    ADD COLUMN IF NOT EXISTS observacao TEXT;
+
+    ALTER TABLE eleitores
+    ADD COLUMN IF NOT EXISTS lideranca_id INTEGER;
+
     DO $$
     BEGIN
       IF NOT EXISTS (
@@ -518,7 +542,27 @@ async function atualizarEstruturasExistentes() {
     END
     $$;
   `);
+
+  await db.query(`
+    DO $$
+    BEGIN
+      IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_eleitores_lideranca'
+      ) THEN
+        ALTER TABLE eleitores
+        ADD CONSTRAINT fk_eleitores_lideranca
+        FOREIGN KEY (lideranca_id)
+        REFERENCES liderancas(id)
+        ON DELETE SET NULL;
+      END IF;
+    END
+    $$;
+  `);
 }
+
+
 
 async function criarEstruturaPermissoes() {
   await db.query(`
@@ -686,6 +730,10 @@ async function criarIndices() {
     CREATE INDEX IF NOT EXISTS
       idx_eleitores_criado_por
     ON eleitores(criado_por_usuario_id);
+
+    CREATE INDEX IF NOT EXISTS
+    idx_eleitores_lideranca
+    ON eleitores(lideranca_id);
 
     CREATE INDEX IF NOT EXISTS
       idx_permissoes_modulo
