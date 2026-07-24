@@ -1736,6 +1736,44 @@
 
             <div class="form-item">
 
+              <label for="bairro">
+                Bairro
+              </label>
+
+              <input type="text" id="bairro" name="bairro" maxlength="120" placeholder="Digite o bairro">
+
+            </div>
+
+            <div class="form-item">
+
+              <label for="liderancaId">
+                Liderança responsável
+              </label>
+
+              <select id="liderancaId" name="lideranca_id">
+                <option value="">
+                  Carregando lideranças...
+                </option>
+              </select>
+
+              <small>
+                Campo opcional.
+              </small>
+
+            </div>
+
+            <div class="form-item">
+
+              <label for="cidade">
+                Cidade
+              </label>
+
+              <input type="text" id="cidade" name="cidade" maxlength="120" placeholder="Digite a cidade">
+
+            </div>
+
+            <div class="form-item">
+
               <label for="cidade">
                 Cidade
               </label>
@@ -1836,6 +1874,10 @@
 
     let modoEdicao = false;
 
+    const API_LIDERANCAS = "/api/liderancas";
+
+    let liderancas = [];
+
     const tbody = document.getElementById("tabelaEleitoresBody");
 
     const modal = document.getElementById("modalEleitor");
@@ -1852,6 +1894,8 @@
       configurarMascaras();
 
       await carregarUsuario();
+
+      await carregarLiderancas();
 
       await carregarResumo();
 
@@ -1884,6 +1928,8 @@
       modoEdicao = false;
 
       form.reset();
+
+      document.getElementById("liderancaId").value = "";
 
       document.getElementById("eleitorId").value = "";
 
@@ -2105,54 +2151,53 @@
     /*Parte 4A*/
 
     async function carregarUsuario() {
-
       try {
-
         const resposta = await fetch("/api/auth/me", {
           method: "GET",
           credentials: "include"
         });
 
         if (resposta.status === 401 || resposta.status === 403) {
-
           window.location.href = "index.html";
-
           return;
-
         }
 
         if (!resposta.ok) {
-
           throw new Error("Não foi possível carregar o usuário.");
-
         }
 
         const dados = await resposta.json();
-
         const usuario = dados.usuario || dados;
 
-        document.getElementById("nomeUsuarioSidebar").textContent =
-          usuario.nome || "Usuário";
+        const nomeUsuarioSidebar =
+          document.getElementById("nomeUsuarioSidebar");
 
-        document.getElementById("perfilUsuarioSidebar").textContent =
-          formatarPerfil(usuario.perfil);
+        const perfilUsuarioSidebar =
+          document.getElementById("perfilUsuarioSidebar");
 
-        const menuUsuarios = document.getElementById("menuUsuarios");
+        if (nomeUsuarioSidebar) {
+          nomeUsuarioSidebar.textContent =
+            usuario.nome || "Usuário";
+        }
 
-        const perfil = String(usuario.perfil || "").toUpperCase();
+        if (perfilUsuarioSidebar) {
+          perfilUsuarioSidebar.textContent =
+            formatarPerfil(usuario.perfil);
+        }
+
+        const menuUsuarios =
+          document.getElementById("menuUsuarios");
+
+        const perfil =
+          String(usuario.perfil || "").toUpperCase();
 
         if (menuUsuarios && perfil !== "ADMIN") {
-
           menuUsuarios.style.display = "none";
-
         }
 
       } catch (erro) {
-
         console.error("Erro ao carregar usuário:", erro);
-
       }
-
     }
 
     function formatarPerfil(perfil) {
@@ -2167,6 +2212,67 @@
       };
 
       return nomes[valor] || perfil || "Usuário";
+
+    }
+
+    async function carregarLiderancas() {
+
+      try {
+
+        const resposta = await fetch(API_LIDERANCAS, {
+          method: "GET",
+          credentials: "include"
+        });
+
+        if (resposta.status === 401 || resposta.status === 403) {
+          window.location.href = "index.html";
+          return;
+        }
+
+        if (!resposta.ok) {
+          throw new Error("Não foi possível carregar as lideranças.");
+        }
+
+        liderancas = await resposta.json();
+
+        const select = document.getElementById("liderancaId");
+
+        if (!select) return;
+
+        select.innerHTML = "";
+
+        const opcaoPadrao = document.createElement("option");
+        opcaoPadrao.value = "";
+        opcaoPadrao.textContent = "Selecione uma liderança...";
+        select.appendChild(opcaoPadrao);
+
+        liderancas.forEach(lideranca => {
+
+          const option = document.createElement("option");
+
+          option.value = lideranca.id;
+
+          option.textContent =
+            `${lideranca.nome} (${lideranca.bairro})`;
+
+          select.appendChild(option);
+
+        });
+
+      } catch (erro) {
+
+        console.error("Erro ao carregar lideranças:", erro);
+
+        const select = document.getElementById("liderancaId");
+
+        if (select) {
+
+          select.innerHTML =
+            `<option value="">Erro ao carregar lideranças</option>`;
+
+        }
+
+      }
 
     }
 
@@ -2765,6 +2871,9 @@
         document.getElementById("subtituloModalEleitor").textContent =
           "Atualize os dados necessários e salve as alterações.";
 
+        document.getElementById("liderancaId").value =
+          eleitor.lideranca_id || "";
+
         modal.classList.add("ativo");
 
         document.body.classList.add("modal-aberto");
@@ -2915,6 +3024,9 @@
 
         observacao:
           document.getElementById("observacao").value.trim()
+
+          lideranca_id:
+          document.getElementById("liderancaId").value || null
 
       };
 

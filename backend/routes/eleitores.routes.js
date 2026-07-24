@@ -108,7 +108,14 @@ function normalizarDadosEleitor(body = {}) {
       limpar(body.local_votacao) ||
       limpar(body.escola_votacao),
 
-    observacao: limpar(body.observacao)
+    observacao: limpar(body.observacao),
+
+    lideranca_id:
+      body.lideranca_id === undefined ||
+        body.lideranca_id === null ||
+        String(body.lideranca_id).trim() === ""
+        ? null
+        : validarId(body.lideranca_id)
   };
 }
 
@@ -2382,10 +2389,6 @@ router.get("/exportar-pdf", async (req, res) => {
   }
 });
 
-// SOMENTE DEPOIS:
-router.get("/:id", async (req, res) => {
-  // buscar eleitor pelo ID
-});
 
 // ======================================================
 // BUSCAR UM ELEITOR
@@ -2444,6 +2447,7 @@ router.get("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     const candidatoId = obterCandidatoId(req);
+    const usuarioId = validarId(req.usuario?.id);
     const dados = normalizarDadosEleitor(req.body);
 
     if (!candidatoId) {
@@ -2452,10 +2456,53 @@ router.post("/", async (req, res) => {
       });
     }
 
+    if (!usuarioId) {
+      return res.status(401).json({
+        erro: "Usuário não identificado na sessão."
+      });
+    }
+
     if (!dados.nome) {
       return res.status(400).json({
         erro: "Nome é obrigatório."
       });
+    }
+
+    /*
+      Se lideranca_id foi enviado, mas não é um ID válido,
+      interrompe o cadastro.
+    */
+    const liderancaFoiInformada =
+      req.body?.lideranca_id !== undefined &&
+      req.body?.lideranca_id !== null &&
+      String(req.body.lideranca_id).trim() !== "";
+
+    if (liderancaFoiInformada && !dados.lideranca_id) {
+      return res.status(400).json({
+        erro: "Liderança informada é inválida."
+      });
+    }
+
+    /*
+      Confirma que a liderança existe e está ativa.
+    */
+    if (dados.lideranca_id) {
+      const liderancaResultado = await pool.query(
+        `
+          SELECT id
+          FROM liderancas
+          WHERE id = $1
+            AND COALESCE(ativo, true) = true
+          LIMIT 1
+        `,
+        [dados.lideranca_id]
+      );
+
+      if (liderancaResultado.rows.length === 0) {
+        return res.status(400).json({
+          erro: "A liderança selecionada não existe ou está inativa."
+        });
+      }
     }
 
     const resultado = await pool.query(
@@ -2479,6 +2526,9 @@ router.post("/", async (req, res) => {
           secao,
           local_votacao,
           observacao,
+          lideranca_id,
+          criado_por_usuario_id,
+          atualizado_por_usuario_id,
           criado_em,
           atualizado_em
         )
@@ -2501,6 +2551,9 @@ router.post("/", async (req, res) => {
           $16,
           $17,
           $18,
+          $19,
+          $20,
+          $20,
           timezone('America/Sao_Paulo', NOW()),
           timezone('America/Sao_Paulo', NOW())
         )
@@ -2524,7 +2577,9 @@ router.post("/", async (req, res) => {
         dados.zona,
         dados.secao,
         dados.local_votacao,
-        dados.observacao
+        dados.observacao,
+        dados.lideranca_id,
+        usuarioId
       ]
     );
 
@@ -2532,6 +2587,7 @@ router.post("/", async (req, res) => {
       mensagem: "Eleitor cadastrado com sucesso.",
       eleitor: resultado.rows[0]
     });
+
   } catch (error) {
     console.error("Erro ao cadastrar eleitor:", error);
 
