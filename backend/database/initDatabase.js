@@ -967,7 +967,7 @@ async function garantirAdministradorInicial(
 async function initDatabase() {
   try {
     console.log(
-      "Verificando estrutura do Sistema Lucas..."
+      "Verificando estrutura do Lucas e Cássio 2027..."
     );
 
     await criarEstruturaPrincipal();
@@ -990,12 +990,12 @@ async function initDatabase() {
     );
 
     console.log(
-      "Tabelas, usuários e permissões do Sistema Lucas verificados com sucesso."
+      "Tabelas, usuários e permissões do Lucas e Cássio 2027 verificados com sucesso."
     );
 
   } catch (erro) {
     console.error(
-      "Erro ao criar as tabelas do Sistema Lucas:",
+      "Erro ao criar as tabelas do Lucas e Cássio 2027:",
       erro
     );
 

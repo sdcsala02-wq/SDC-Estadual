@@ -524,7 +524,7 @@ app.get(
       return res.json({
         ok: true,
         sistema:
-          "Sistema Lucas",
+          "Lucas e Cássio 2027",
         status:
           "API e banco de dados funcionando"
       });
@@ -540,7 +540,7 @@ app.get(
         .json({
           ok: false,
           sistema:
-            "Sistema Lucas",
+            "Lucas e Cássio 2027",
           status:
             "Banco de dados indisponível"
         });
@@ -1266,7 +1266,7 @@ app.post(
 );
 
 // ======================================================
-// DASHBOARD — SISTEMA LUCAS
+// DASHBOARD — Lucas e Cássio 2027
 // ======================================================
 
 app.get(
@@ -2247,7 +2247,7 @@ app.use((req, res) => {
           </h2>
 
           <p>
-            O endereço informado não existe no Sistema Lucas.
+            O endereço informado não existe no Lucas e Cássio 2027.
           </p>
 
           <a href="/dashboard.html">
@@ -2303,7 +2303,7 @@ app.use(
 async function iniciarSistema() {
   try {
     console.log(
-      "Iniciando o Sistema Lucas..."
+      "Iniciando o Lucas e Cássio 2027..."
     );
 
     await db.query(
@@ -2330,7 +2330,7 @@ async function iniciarSistema() {
         );
 
         console.log(
-          "SISTEMA LUCAS INICIADO COM SUCESSO"
+          "Lucas e Cássio 2027 INICIADO COM SUCESSO"
         );
 
         console.log(
@@ -2357,7 +2357,7 @@ async function iniciarSistema() {
     console.error("");
 
     console.error(
-      "Não foi possível iniciar o Sistema Lucas."
+      "Não foi possível iniciar o Lucas e Cássio 2027."
     );
 
     console.error(

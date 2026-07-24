@@ -612,8 +612,8 @@ router.get("/modelo-excel", async (req, res) => {
 
     const workbook = new ExcelJS.Workbook();
 
-    workbook.creator = "Sistema Lucas";
-    workbook.lastModifiedBy = "Sistema Lucas";
+    workbook.creator = "Lucas e Cássio 2027";
+    workbook.lastModifiedBy = "Lucas e Cássio 2027";
     workbook.created = new Date();
     workbook.modified = new Date();
 
@@ -637,7 +637,7 @@ router.get("/modelo-excel", async (req, res) => {
     const tituloInstrucoes = instrucoes.getCell("A1");
 
     tituloInstrucoes.value =
-      "SISTEMA LUCAS — INSTRUÇÕES PARA IMPORTAÇÃO";
+      "Lucas e Cássio 2027 — INSTRUÇÕES PARA IMPORTAÇÃO";
 
     tituloInstrucoes.font = {
       bold: true,
@@ -871,7 +871,7 @@ router.get("/modelo-excel", async (req, res) => {
     const titulo = planilha.getCell("A1");
 
     titulo.value =
-      "SISTEMA LUCAS — MODELO OFICIAL DE IMPORTAÇÃO DE ELEITORES";
+      "Lucas e Cássio 2027 — MODELO OFICIAL DE IMPORTAÇÃO DE ELEITORES";
 
     titulo.font = {
       bold: true,
@@ -1656,8 +1656,8 @@ router.get("/exportar-excel", async (req, res) => {
 
     const workbook = new ExcelJS.Workbook();
 
-    workbook.creator = "Sistema Lucas";
-    workbook.lastModifiedBy = "Sistema Lucas";
+    workbook.creator = "Lucas e Cássio 2027";
+    workbook.lastModifiedBy = "Lucas e Cássio 2027";
     workbook.created = new Date();
     workbook.modified = new Date();
 
@@ -1712,7 +1712,7 @@ router.get("/exportar-excel", async (req, res) => {
     const titulo = planilha.getCell("A1");
 
     titulo.value =
-      "SISTEMA LUCAS — RELATÓRIO DE ELEITORES";
+      "Lucas e Cássio 2027 — RELATÓRIO DE ELEITORES";
 
     titulo.font = {
       bold: true,
@@ -2170,7 +2170,7 @@ router.get("/exportar-pdf", async (req, res) => {
         .font("Helvetica-Bold")
         .fontSize(16)
         .text(
-          "SISTEMA LUCAS",
+          "Lucas e Cássio 2027",
           esquerda + 14,
           topo + 9
         );
@@ -2266,7 +2266,7 @@ router.get("/exportar-pdf", async (req, res) => {
         .font("Helvetica")
         .fontSize(7)
         .text(
-          "Documento gerado automaticamente pelo Sistema Lucas.",
+          "Documento gerado automaticamente pelo Lucas e Cássio 2027.",
           pdf.page.margins.left,
           rodapeY,
           {

@@ -1,7 +1,7 @@
 {
   "name": "sistema-lucas",
   "version": "1.0.0",
-  "description": "Sistema Lucas",
+  "description": "Lucas e Cassio 2027",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"

@@ -4,7 +4,7 @@ const db = require("./db");
 
 async function corrigirEstrutura() {
   try {
-    console.log("Verificando banco utilizado pelo Sistema Lucas...");
+    console.log("Verificando banco utilizado pelo Lucas e Cássio 2027...");
 
     const conexao = await db.query(`
       SELECT

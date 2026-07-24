@@ -2,9 +2,9 @@
 
 (() => {
   const CONFIGURACAO_MENU = {
-    nomeSistema: "SISTEMA LUCAS",
+    nomeSistema: "Lucas e Cássio 2027",
     subtituloSistema: "Gestão Eleitoral",
-    versao: "Sistema Lucas v1.0"
+    versao: "Lucas e Cássio 2027 v1.0"
   };
 
   let usuarioLogado = null;
