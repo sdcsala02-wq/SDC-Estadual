@@ -16,7 +16,7 @@ const eleitoresRoutes = require("./routes/eleitores.routes");
 const liderancasRoutes = require("./routes/liderancas.routes");
 const usuariosRoutes = require("./routes/usuarios.routes");
 
-const initDatabase = require("../database/initDatabase");
+const initDatabase = require("./database/initDatabase");
 
 const app = express();
 
@@ -1217,25 +1217,25 @@ app.post(
           erroAuditoria.message
         );
       }
-      
+
       return res.json({
-      ok: true,
-      mensagem:
-        "Senha alterada com sucesso."
-    });
+        ok: true,
+        mensagem:
+          "Senha alterada com sucesso."
+      });
 
-  } catch (erro) {
-    console.error(
-      "Erro ao alterar senha:",
-      erro
-    );
+    } catch (erro) {
+      console.error(
+        "Erro ao alterar senha:",
+        erro
+      );
 
-    return res.status(500).json({
-      ok: false,
-      mensagem:
-        "Erro interno ao alterar a senha."
-    });
-  }
+      return res.status(500).json({
+        ok: false,
+        mensagem:
+          "Erro interno ao alterar a senha."
+      });
+    }
   }
 );
 
