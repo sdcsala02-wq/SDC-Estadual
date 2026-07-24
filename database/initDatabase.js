@@ -1,6 +1,6 @@
 "use strict";
 
-const db = require("../backend/db");
+const db = require("../db");
 const bcrypt = require("../backend/node_modules/bcryptjs");
 
 const PERMISSOES_SISTEMA = [
