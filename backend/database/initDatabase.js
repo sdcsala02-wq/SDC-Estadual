@@ -1,7 +1,7 @@
 "use strict";
 
-const db = require("../backend/db");
-const bcrypt = require("../backend/node_modules/bcryptjs");
+const db = require("../db");
+const bcrypt = require("bcryptjs");
 
 const PERMISSOES_SISTEMA = [
   // Dashboard
