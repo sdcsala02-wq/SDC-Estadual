@@ -839,18 +839,39 @@ async function cadastrarPermissoesDosPerfis() {
 }
 
 async function garantirCandidatoInicial() {
+  const nomeAtual = "Lucas e Cássio 2027";
+  /*const nomeAntigo = "Lucas Mourã";*/
+
   const candidatoExistente = await db.query(
     `
-      SELECT id
+      SELECT id, nome
       FROM candidatos
       WHERE nome = $1
+         OR nome = $2
+      ORDER BY
+        CASE WHEN nome = $1 THEN 1 ELSE 2 END
       LIMIT 1
     `,
-    ["Lucas Mourão"]
+    [nomeAtual, nomeAntigo]
   );
 
   if (candidatoExistente.rows.length > 0) {
-    return candidatoExistente.rows[0].id;
+    const candidato = candidatoExistente.rows[0];
+
+    if (candidato.nome !== nomeAtual) {
+      await db.query(
+        `
+          UPDATE candidatos
+          SET
+            nome = $1,
+            atualizado_em = CURRENT_TIMESTAMP
+          WHERE id = $2
+        `,
+        [nomeAtual, candidato.id]
+      );
+    }
+
+    return candidato.id;
   }
 
   const novoCandidato = await db.query(
@@ -866,7 +887,7 @@ async function garantirCandidatoInicial() {
       RETURNING id
     `,
     [
-      "Lucas Mourão",
+      nomeAtual,
       "Deputado Estadual",
       "Praia Grande",
       "SP"
@@ -1015,7 +1036,7 @@ async function garantirAdministradorInicial(
 async function initDatabase() {
   try {
     console.log(
-      "Verificando estrutura do Sistema Lucas..."
+      "Verificando estrutura do Lucas e Cássio 2027..."
     );
 
     await criarEstruturaPrincipal();
@@ -1038,12 +1059,12 @@ async function initDatabase() {
     );
 
     console.log(
-      "Tabelas, usuários e permissões do Sistema Lucas verificados com sucesso."
+      "Tabelas, usuários e permissões do Lucas e Cássio 2027 verificados com sucesso."
     );
 
   } catch (erro) {
     console.error(
-      "Erro ao criar as tabelas do Sistema Lucas:",
+      "Erro ao criar as tabelas do Lucas e Cássio 2027:",
       erro
     );
 
