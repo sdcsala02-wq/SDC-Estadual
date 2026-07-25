@@ -225,7 +225,7 @@
           "mapa.html"
         ]
       },
-
+      /*
       {
         nome: "Relatórios",
         icone: "📈",
@@ -236,6 +236,7 @@
           "relatorio-legislativo.html"
         ]
       },
+      */
 
       {
         nome: "Importação",
