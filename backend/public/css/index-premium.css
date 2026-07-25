@@ -1,0 +1,821 @@
+/* =========================================================
+   HOME PREMIUM — LUCAS E CÁSSIO 2027
+   Arquivo exclusivo da página index.html
+========================================================= */
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Poppins", Arial, sans-serif;
+  background: #030914;
+  color: #ffffff;
+}
+
+body,
+button {
+  font-family: "Poppins", Arial, sans-serif;
+}
+
+.hero-premium {
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 38px 28px 26px;
+
+  background:
+    radial-gradient(
+      circle at 50% 15%,
+      rgba(24, 119, 242, 0.2),
+      transparent 34%
+    ),
+    radial-gradient(
+      circle at 10% 55%,
+      rgba(0, 200, 255, 0.11),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 90% 55%,
+      rgba(124, 58, 237, 0.12),
+      transparent 28%
+    ),
+    linear-gradient(
+      180deg,
+      #071426 0%,
+      #040b16 48%,
+      #020711 100%
+    );
+}
+
+/* Remove os efeitos antigos da classe .hero do style.css */
+
+.hero-premium::before,
+.hero-premium::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+.hero-premium::before {
+  width: 720px;
+  height: 720px;
+  left: 50%;
+  top: -470px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+
+  background: radial-gradient(
+    circle,
+    rgba(31, 139, 255, 0.23),
+    rgba(31, 139, 255, 0.03) 48%,
+    transparent 70%
+  );
+}
+
+.hero-premium::after {
+  inset: 0;
+
+  background-image:
+    linear-gradient(
+      rgba(255, 255, 255, 0.017) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.017) 1px,
+      transparent 1px
+    );
+
+  background-size: 54px 54px;
+  mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.85),
+    transparent 90%
+  );
+}
+
+.hero-luz {
+  position: absolute;
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  filter: blur(110px);
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.hero-luz-esquerda {
+  left: -330px;
+  top: 20%;
+  background: #00bfff;
+}
+
+.hero-luz-direita {
+  right: -330px;
+  top: 20%;
+  background: #7447ff;
+}
+
+.hero-circulos {
+  position: absolute;
+  width: 470px;
+  height: 470px;
+  border: 1px solid rgba(67, 166, 255, 0.09);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.hero-circulos::before,
+.hero-circulos::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(67, 166, 255, 0.07);
+}
+
+.hero-circulos::before {
+  inset: 55px;
+}
+
+.hero-circulos::after {
+  inset: 115px;
+}
+
+.hero-circulos-esquerda {
+  left: -300px;
+  top: 18%;
+}
+
+.hero-circulos-direita {
+  right: -300px;
+  top: 18%;
+}
+
+.landing-container {
+  position: relative;
+  z-index: 2;
+
+  width: min(1180px, 100%);
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* =========================================================
+   MARCA SDC
+========================================================= */
+
+.marca-sdc {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 17px;
+
+  margin-bottom: 35px;
+
+  animation: aparecerTopo 0.75s ease both;
+}
+
+.simbolo-sdc {
+  width: 76px;
+  height: 76px;
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 22px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(34, 145, 255, 0.2),
+      rgba(14, 35, 65, 0.74)
+    );
+
+  border: 1px solid rgba(75, 172, 255, 0.28);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.11),
+    0 14px 40px rgba(0, 102, 255, 0.18);
+}
+
+.simbolo-barras {
+  position: relative;
+  width: 43px;
+  height: 42px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 5px;
+}
+
+.barra-sdc {
+  display: block;
+  width: 8px;
+
+  border-radius: 5px 5px 2px 2px;
+
+  background: linear-gradient(
+    180deg,
+    #64c6ff,
+    #1778ff
+  );
+
+  box-shadow: 0 0 12px rgba(48, 159, 255, 0.45);
+}
+
+.barra-sdc.barra-1 {
+  height: 17px;
+}
+
+.barra-sdc.barra-2 {
+  height: 28px;
+}
+
+.barra-sdc.barra-3 {
+  height: 40px;
+}
+
+.arco-sdc {
+  position: absolute;
+  width: 47px;
+  height: 47px;
+  border: 3px solid transparent;
+  border-top-color: #5bc4ff;
+  border-right-color: #5bc4ff;
+  border-radius: 50%;
+  transform: rotate(-28deg);
+  opacity: 0.9;
+}
+
+.marca-texto {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.marca-texto strong {
+  font-size: 43px;
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: 2px;
+
+  background: linear-gradient(
+    180deg,
+    #ffffff,
+    #a9d9ff
+  );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.marca-texto span {
+  padding-left: 14px;
+  border-left: 1px solid rgba(255, 255, 255, 0.22);
+
+  color: rgba(219, 235, 252, 0.73);
+  font-size: 12px;
+  line-height: 1.55;
+  font-weight: 400;
+}
+
+/* =========================================================
+   CONTEÚDO CENTRAL
+========================================================= */
+
+.hero-conteudo {
+  width: 100%;
+  max-width: 900px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  text-align: center;
+
+  animation: aparecerCentro 0.85s 0.08s ease both;
+}
+
+.hero-etiqueta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 8px 17px;
+  margin-bottom: 21px;
+
+  border-radius: 999px;
+
+  color: #74c7ff;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.7px;
+  text-transform: uppercase;
+
+  border: 1px solid rgba(57, 164, 255, 0.27);
+
+  background: rgba(22, 115, 203, 0.09);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 0 30px rgba(31, 139, 255, 0.06);
+}
+
+.hero-conteudo h1 {
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size: clamp(44px, 6vw, 79px);
+  line-height: 1.05;
+  font-weight: 600;
+  letter-spacing: -3px;
+
+  text-shadow: 0 10px 45px rgba(0, 100, 255, 0.1);
+}
+
+.titulo-detalhe {
+  width: 80px;
+  height: 3px;
+  margin: 25px 0 21px;
+
+  border-radius: 99px;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #3eb9ff,
+    transparent
+  );
+
+  box-shadow: 0 0 20px rgba(62, 185, 255, 0.52);
+}
+
+.hero-subtitulo {
+  max-width: 710px;
+  margin: 0;
+
+  color: rgba(207, 224, 242, 0.72);
+
+  font-size: clamp(14px, 1.6vw, 18px);
+  line-height: 1.75;
+  font-weight: 300;
+}
+
+/* =========================================================
+   BOTÕES
+========================================================= */
+
+.hero-botoes {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  gap: 14px;
+  margin-top: 34px;
+}
+
+.btn-landing {
+  min-width: 224px;
+  height: 52px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 10px;
+  padding: 0 23px;
+
+  border-radius: 12px;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.btn-landing:hover {
+  transform: translateY(-3px);
+}
+
+.btn-landing:active {
+  transform: translateY(-1px);
+}
+
+.btn-icone {
+  font-size: 17px;
+  line-height: 1;
+}
+
+.btn-acessar {
+  border: 1px solid rgba(68, 172, 255, 0.65);
+
+  color: #ffffff;
+
+  background: linear-gradient(
+    135deg,
+    #1374e9,
+    #1697e8
+  );
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 12px 32px rgba(0, 116, 255, 0.23);
+}
+
+.btn-acessar:hover {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    0 16px 40px rgba(0, 135, 255, 0.34);
+}
+
+.btn-transparencia {
+  color: rgba(231, 242, 255, 0.9);
+
+  border: 1px solid rgba(130, 173, 215, 0.25);
+
+  background: rgba(15, 37, 63, 0.55);
+
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.btn-transparencia:hover {
+  border-color: rgba(85, 186, 255, 0.55);
+  background: rgba(25, 65, 104, 0.66);
+}
+
+/* =========================================================
+   RECURSOS
+========================================================= */
+
+.recursos-plataforma {
+  width: 100%;
+
+  display: grid;
+  grid-template-columns: repeat(5, minmax(130px, 1fr));
+
+  margin-top: 59px;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.075);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.075);
+
+  animation: aparecerBaixo 0.85s 0.17s ease both;
+}
+
+.recurso-item {
+  min-height: 108px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 13px;
+  padding: 18px 15px;
+
+  position: relative;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.recurso-item:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 24px;
+  bottom: 24px;
+
+  width: 1px;
+
+  background: rgba(255, 255, 255, 0.075);
+}
+
+.recurso-item:hover {
+  background: rgba(48, 134, 220, 0.055);
+  transform: translateY(-2px);
+}
+
+.recurso-icone {
+  width: 43px;
+  height: 43px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 13px;
+
+  font-size: 19px;
+
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.recurso-azul {
+  color: #70caff;
+  background: rgba(27, 138, 225, 0.13);
+  border-color: rgba(41, 160, 255, 0.22);
+}
+
+.recurso-roxo {
+  color: #a991ff;
+  background: rgba(121, 77, 255, 0.13);
+  border-color: rgba(132, 91, 255, 0.22);
+}
+
+.recurso-verde {
+  color: #62dcb7;
+  background: rgba(30, 180, 136, 0.12);
+  border-color: rgba(45, 204, 155, 0.22);
+}
+
+.recurso-dourado {
+  color: #f1ca6a;
+  background: rgba(210, 149, 32, 0.13);
+  border-color: rgba(237, 180, 65, 0.23);
+}
+
+.recurso-rosa {
+  color: #f592c5;
+  background: rgba(220, 74, 153, 0.12);
+  border-color: rgba(234, 97, 171, 0.22);
+}
+
+.recurso-item > span {
+  color: rgba(222, 235, 250, 0.76);
+
+  font-size: 12px;
+  line-height: 1.55;
+  font-weight: 500;
+}
+
+/* =========================================================
+   RODAPÉ
+========================================================= */
+
+.landing-rodape {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding-top: 19px;
+
+  color: rgba(181, 204, 228, 0.42);
+
+  font-size: 10px;
+  letter-spacing: 0.3px;
+
+  animation: aparecerBaixo 0.85s 0.22s ease both;
+}
+
+.landing-rodape small {
+  color: inherit;
+  font-size: inherit;
+}
+
+/* =========================================================
+   MODAL DE LOGIN
+   Mantém a funcionalidade atual e melhora somente o visual
+========================================================= */
+
+.modal-login {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.modal-login .login-box {
+  border: 1px solid rgba(69, 163, 255, 0.22);
+
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(30, 139, 255, 0.13),
+      transparent 32%
+    ),
+    #091526;
+
+  box-shadow:
+    0 30px 90px rgba(0, 0, 0, 0.55),
+    0 0 50px rgba(0, 111, 255, 0.08);
+}
+
+/* =========================================================
+   ANIMAÇÕES
+========================================================= */
+
+@keyframes aparecerTopo {
+  from {
+    opacity: 0;
+    transform: translateY(-18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes aparecerCentro {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes aparecerBaixo {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================================
+   RESPONSIVIDADE
+========================================================= */
+
+@media (max-width: 900px) {
+  .hero-premium {
+    padding: 30px 20px 22px;
+  }
+
+  .marca-sdc {
+    margin-bottom: 31px;
+  }
+
+  .recursos-plataforma {
+    grid-template-columns: repeat(2, 1fr);
+    margin-top: 48px;
+  }
+
+  .recurso-item:nth-child(odd):not(:last-child)::after {
+    display: block;
+  }
+
+  .recurso-item:nth-child(even)::after {
+    display: none;
+  }
+
+  .recurso-item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.065);
+  }
+
+  .recurso-item:last-child {
+    grid-column: 1 / -1;
+    border-bottom: none;
+  }
+
+  .landing-rodape {
+    gap: 14px;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero-premium {
+    min-height: 100svh;
+    padding: 25px 16px 20px;
+  }
+
+  .marca-sdc {
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  .simbolo-sdc {
+    width: 61px;
+    height: 61px;
+    border-radius: 18px;
+  }
+
+  .simbolo-barras {
+    width: 35px;
+    height: 34px;
+    gap: 4px;
+  }
+
+  .barra-sdc {
+    width: 7px;
+  }
+
+  .barra-sdc.barra-1 {
+    height: 14px;
+  }
+
+  .barra-sdc.barra-2 {
+    height: 23px;
+  }
+
+  .barra-sdc.barra-3 {
+    height: 33px;
+  }
+
+  .arco-sdc {
+    width: 39px;
+    height: 39px;
+  }
+
+  .marca-texto {
+    gap: 10px;
+  }
+
+  .marca-texto strong {
+    font-size: 34px;
+  }
+
+  .marca-texto span {
+    padding-left: 10px;
+    font-size: 9px;
+  }
+
+  .hero-etiqueta {
+    margin-bottom: 17px;
+    padding: 7px 12px;
+    font-size: 9px;
+    letter-spacing: 1.15px;
+  }
+
+  .hero-conteudo h1 {
+    font-size: 42px;
+    letter-spacing: -2px;
+  }
+
+  .titulo-detalhe {
+    margin: 20px 0 17px;
+  }
+
+  .hero-subtitulo {
+    max-width: 340px;
+    font-size: 13px;
+    line-height: 1.65;
+  }
+
+  .hero-botoes {
+    width: 100%;
+    margin-top: 28px;
+  }
+
+  .btn-landing {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .recursos-plataforma {
+    grid-template-columns: 1fr;
+    margin-top: 39px;
+  }
+
+  .recurso-item {
+    min-height: 82px;
+    justify-content: flex-start;
+    padding: 15px 22px;
+  }
+
+  .recurso-item::after {
+    display: none !important;
+  }
+
+  .recurso-item:last-child {
+    grid-column: auto;
+  }
+
+  .recurso-item > span br {
+    display: none;
+  }
+
+  .landing-rodape {
+    flex-direction: column;
+    text-align: center;
+    line-height: 1.55;
+  }
+}
