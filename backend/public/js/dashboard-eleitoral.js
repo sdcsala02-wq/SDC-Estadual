@@ -135,7 +135,7 @@ function preencherUltimosEleitores(eleitores) {
 function desenharRankingBairros(lista) {
   const container =
     document.getElementById(
-      "rankingSecretarias"
+      "rankingBairros"
     );
 
   if (!container) {
@@ -152,7 +152,7 @@ function desenharRankingBairros(lista) {
 function desenharRankingCidades(lista) {
   const container =
     document.getElementById(
-      "rankingBairros"
+      "rankingCidades"
     );
 
   if (!container) {
@@ -161,7 +161,7 @@ function desenharRankingCidades(lista) {
 
   desenharRanking(
     container,
-    lista,  
+    lista,
     "cidade"
   );
 }
@@ -203,28 +203,25 @@ function desenharRanking(
         );
 
       return `
-        <div class="ranking-item">
-          <div class="ranking-cabecalho">
-            <span>
-              ${indice + 1}.
-              ${escaparHtml(
-        item[campoNome]
-      )}
-            </span>
+  <div class="ranking-item">
 
-            <strong>
-              ${total}
-            </strong>
-          </div>
+    <span class="ranking-nome">
+      ${escaparHtml(item[campoNome])}
+    </span>
 
-          <div class="ranking-barra">
-            <div
-              class="ranking-preenchimento"
-              style="width: ${percentual}%"
-            ></div>
-          </div>
-        </div>
-      `;
+    <div class="ranking-barra">
+      <div
+        class="ranking-preenchimento"
+        style="width:${percentual}%"
+      ></div>
+    </div>
+      
+    <strong class="ranking-total">
+      ${total}
+    </strong>
+
+  </div>
+`;
     }).join("");
 }
 

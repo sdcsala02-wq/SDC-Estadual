@@ -4907,3 +4907,80 @@ body {
     grid-column: auto;
   }
 }
+
+/* =========================================================
+   CORREÇÃO — NOMES COMPLETOS NO RANKING DE CIDADES
+========================================================= */
+
+#rankingCidades .ranking-cabecalho {
+  display: grid !important;
+  grid-template-columns: minmax(140px, 1fr) 36px !important;
+  align-items: center !important;
+  gap: 10px !important;
+}
+
+#rankingCidades .ranking-cabecalho span {
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: none !important;
+
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+
+  line-height: 1.25 !important;
+}
+
+#rankingCidades .ranking-cabecalho strong {
+  width: 36px !important;
+  min-width: 36px !important;
+  text-align: right !important;
+  white-space: nowrap !important;
+}
+
+#rankingCidades .ranking-barra {
+  width: 100% !important;
+  margin-top: 8px !important;
+}
+
+/* =========================================================
+   CORREÇÃO FINAL — RANKINGS DE BAIRROS E CIDADES
+========================================================= */
+
+#rankingBairros .ranking-cabecalho,
+#rankingCidades .ranking-cabecalho {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) 40px !important;
+  align-items: center !important;
+  gap: 12px !important;
+}
+
+#rankingBairros .ranking-cabecalho span,
+#rankingCidades .ranking-cabecalho span {
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: none !important;
+
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+
+  color: #ffffff !important;
+  line-height: 1.3 !important;
+}
+
+#rankingBairros .ranking-cabecalho strong,
+#rankingCidades .ranking-cabecalho strong {
+  width: 40px !important;
+  min-width: 40px !important;
+
+  text-align: right !important;
+  white-space: nowrap !important;
+}
+
+#rankingBairros .ranking-barra,
+#rankingCidades .ranking-barra {
+  width: 100% !important;
+  margin-top: 8px !important;
+}
+
