@@ -1,0 +1,1264 @@
+{
+  "geradoEm": "2026-07-25T01:04:53.823Z",
+  "pastaRaiz": "D:\\documentos\\Lucas e Cássio 2027\\backend",
+  "totalArquivos": 69,
+  "estrutura": [
+    ".env",
+    "arquivos-css.txt",
+    "arquivos-html.txt",
+    "arquivos-js.txt",
+    "corrigir-eleitores-lideranca.js",
+    "database/initDatabase.js",
+    "db.js",
+    "diagnostico.js",
+    "estrutura.txt",
+    "package-lock.json",
+    "package.json",
+    "public/.gitignore",
+    "public/admin.html",
+    "public/alterar-senha.html",
+    "public/cadastro.html",
+    "public/cidadao.html",
+    "public/cidadaos.html",
+    "public/configuracoes.html",
+    "public/css/dashboard-executivo.css",
+    "public/css/relatorios.css",
+    "public/css/style.css",
+    "public/dashboard.html",
+    "public/data/bairros-praia-grande.geojson",
+    "public/demandas-gabinete.html",
+    "public/eleitores.html",
+    "public/img/Edu.png",
+    "public/importar.html",
+    "public/index.html",
+    "public/interacoes.html",
+    "public/js/admin.js",
+    "public/js/app.js",
+    "public/js/auth.js",
+    "public/js/demandas-gabinete.js",
+    "public/js/importar.js",
+    "public/js/interacoes.js",
+    "public/js/liderancas.js",
+    "public/js/mapa-leaflet.js",
+    "public/js/mapa.js",
+    "public/js/nova-demanda.js",
+    "public/js/relatorios.js",
+    "public/js/sidebar.js",
+    "public/liderancas.html",
+    "public/mapa.html",
+    "public/nova-demanda.html",
+    "public/protocolo-publico.html",
+    "public/protocolo.html",
+    "public/relatorio-geral.html",
+    "public/relatorio-legislativo.html",
+    "public/relatorios.html",
+    "public/secretarias.html",
+    "public/usuarios-backup.html",
+    "public/usuarios.html",
+    "routes/cidadaos.routes.js",
+    "routes/conversas.routes.js",
+    "routes/demandas-gabinete.routes.js",
+    "routes/demandas.routes.js",
+    "routes/eleitores.routes.js",
+    "routes/interacoes.routes.js",
+    "routes/liderancas.routes.js",
+    "routes/relatorios.dashboard.routes.js",
+    "routes/relatorios.routes.js",
+    "routes/usuarios.routes.js",
+    "routes/webhook.routes.js",
+    "routes/whatsapp.routes.js",
+    "server.js",
+    "services/atendimento.service.js",
+    "services/chatbot.service.js",
+    "services/openai.service.js",
+    "services/whatsapp.service.js"
+  ],
+  "resumoExtensoes": {
+    "sem_extensao": 2,
+    ".txt": 4,
+    ".js": 33,
+    ".json": 2,
+    ".html": 23,
+    ".css": 3,
+    ".geojson": 1,
+    ".png": 1
+  },
+  "rotas": [
+    {
+      "arquivo": "routes/cidadaos.routes.js",
+      "objeto": "router",
+      "metodo": "GET",
+      "rota": "/"
+    },
+    {
+      "arquivo": "routes/cidadaos.routes.js",
+      "objeto": "router",
+      "metodo": "GET",
+      "rota": "/:id/perfil"
+    },
+    {
+      "arquivo": "routes/conversas.routes.js",
+      "objeto": "router",
+      "metodo": "GET",
+      "rota": "/"
+    },
+    {
+      "arquivo": "routes/demandas-gabinete.routes.js",
+      "objeto": "router",
+      "metodo": "GET",
+      "rota": "/resumo"
+    },
+    {
+      "arquivo": "routes/demandas-gabinete.routes.js",
+      "objeto": "router",
+      "metodo": "GET",
+      "rota": "/"
+    },
+    {
+      "arquivo": "routes/demandas-gabinete.routes.js",
+      "objeto": "router",
+      "metodo": "POST",
+      "rota": "/importar"
+    },
+    {
+      "arquivo": "routes/demandas.routes.js",
+      "objeto": "router",
+      "metodo": "POST",
+      "rota": "/"
+    },
+    {
+      "arquivo": "routes/demandas.routes.js",
+      "objeto": "router",
+      "metodo": "GET",
+      "rota": "/"
+    },
+    {
+      "arquivo": "routes/demandas.routes.js",
+      "objeto": "router",
+      "metodo": "GET",
+      "rota": "/dashboard/resumo"
+    },
+    {
+      "arquivo": "routes/demandas.routes.js",
+      "objeto": "router",
+      "metodo": "GET",
+      "rota": "/exportar/excel"
+    },
+    {
+      "arquivo": "routes/demandas.routes.js",
+      "objeto": "router",
+      "metodo": "GET",
+      "rota": "/exportar/pdf"
+    },
+    {
+      "arquivo": "routes/demandas.routes.js",
+      "objeto": "router",
+      "metodo": "PUT",
+      "rota": "/:id"
+    },
+    {
+      "arquivo": "routes/demandas.routes.js",
+      "objeto": "router",
+      "metodo": "PUT",
+      "rota": "/:id/status"
+    },
+    {
+      "arquivo": "routes/eleitores.routes.js",
+      "objeto": "router",
+      "metodo": "GET",
+      "rota": "/"
+    },
+    {
+      "arquivo": "routes/eleitores.routes.js",
+      "objeto": "router",
+      "metodo": "GET",
+      "rota": "/resumo"
+    },
+    {
+      "arquivo": "routes/eleitores.routes.js",
+      "objeto": "router",
+      "metodo": "GET",
+      "rota": "/modelo-excel"
+    },
+    {
+      "arquivo": "routes/eleitores.routes.js",
+      "objeto": "router",
+      "metodo": "POST",
+      "rota": "/importar-excel"
+    },
+    {
+      "arquivo": "routes/eleitores.routes.js",
+      "objeto": "router",
+      "metodo": "GET",
+      "rota": "/exportar-excel"
+    },
+    {
+      "arquivo": "routes/eleitores.routes.js",
+      "objeto": "router",
+      "metodo": "GET",
+      "rota": "/exportar-pdf"
+    },
+    {
+      "arquivo": "routes/eleitores.routes.js",
+      "objeto": "router",
+      "metodo": "GET",
+      "rota": "/:id"
+    },
+    {
+      "arquivo": "routes/eleitores.routes.js",
+      "objeto": "router",
+      "metodo": "POST",
+      "rota": "/"
+    },
+    {
+      "arquivo": "routes/eleitores.routes.js",
+      "objeto": "router",
+      "metodo": "PUT",
+      "rota": "/:id"
+    },
+    {
+      "arquivo": "routes/eleitores.routes.js",
+      "objeto": "router",
+      "metodo": "DELETE",
+      "rota": "/:id"
+    },
+    {
+      "arquivo": "routes/interacoes.routes.js",
+      "objeto": "router",
+      "metodo": "GET",
+      "rota": "/resumo"
+    },
+    {
+      "arquivo": "routes/interacoes.routes.js",
+      "objeto": "router",
+      "metodo": "GET",
+      "rota": "/mensal"
+    },
+    {
+      "arquivo": "routes/interacoes.routes.js",
+      "objeto": "router",
+      "metodo": "GET",
+      "rota": "/total/:ano"
+    },
+    {
+      "arquivo": "routes/interacoes.routes.js",
+      "objeto": "router",
+      "metodo": "POST",
+      "rota": "/importar"
+    },
+    {
+      "arquivo": "routes/liderancas.routes.js",
+      "objeto": "router",
+      "metodo": "GET",
+      "rota": "/"
+    },
+    {
+      "arquivo": "routes/liderancas.routes.js",
+      "objeto": "router",
+      "metodo": "GET",
+      "rota": "/resumo"
+    },
+    {
+      "arquivo": "routes/liderancas.routes.js",
+      "objeto": "router",
+      "metodo": "GET",
+      "rota": "/bairro/:bairro"
+    },
+    {
+      "arquivo": "routes/liderancas.routes.js",
+      "objeto": "router",
+      "metodo": "POST",
+      "rota": "/"
+    },
+    {
+      "arquivo": "routes/liderancas.routes.js",
+      "objeto": "router",
+      "metodo": "PUT",
+      "rota": "/:id"
+    },
+    {
+      "arquivo": "routes/liderancas.routes.js",
+      "objeto": "router",
+      "metodo": "DELETE",
+      "rota": "/:id"
+    },
+    {
+      "arquivo": "routes/relatorios.dashboard.routes.js",
+      "objeto": "router",
+      "metodo": "GET",
+      "rota": "/dashboard"
+    },
+    {
+      "arquivo": "routes/relatorios.dashboard.routes.js",
+      "objeto": "router",
+      "metodo": "GET",
+      "rota": "/atividades/dashboard"
+    },
+    {
+      "arquivo": "routes/relatorios.routes.js",
+      "objeto": "router",
+      "metodo": "POST",
+      "rota": "/importar"
+    },
+    {
+      "arquivo": "routes/relatorios.routes.js",
+      "objeto": "router",
+      "metodo": "POST",
+      "rota": "/atividades/importar"
+    },
+    {
+      "arquivo": "routes/usuarios.routes.js",
+      "objeto": "router",
+      "metodo": "GET",
+      "rota": "/perfis"
+    },
+    {
+      "arquivo": "routes/usuarios.routes.js",
+      "objeto": "router",
+      "metodo": "GET",
+      "rota": "/clientes"
+    },
+    {
+      "arquivo": "routes/usuarios.routes.js",
+      "objeto": "router",
+      "metodo": "GET",
+      "rota": "/"
+    },
+    {
+      "arquivo": "routes/usuarios.routes.js",
+      "objeto": "router",
+      "metodo": "GET",
+      "rota": "/:id"
+    },
+    {
+      "arquivo": "routes/usuarios.routes.js",
+      "objeto": "router",
+      "metodo": "POST",
+      "rota": "/"
+    },
+    {
+      "arquivo": "routes/usuarios.routes.js",
+      "objeto": "router",
+      "metodo": "PUT",
+      "rota": "/:id"
+    },
+    {
+      "arquivo": "routes/usuarios.routes.js",
+      "objeto": "router",
+      "metodo": "PATCH",
+      "rota": "/:id/senha"
+    },
+    {
+      "arquivo": "routes/usuarios.routes.js",
+      "objeto": "router",
+      "metodo": "PATCH",
+      "rota": "/:id/status"
+    },
+    {
+      "arquivo": "routes/usuarios.routes.js",
+      "objeto": "router",
+      "metodo": "GET",
+      "rota": "/:id/permissoes"
+    },
+    {
+      "arquivo": "routes/usuarios.routes.js",
+      "objeto": "router",
+      "metodo": "PUT",
+      "rota": "/:id/permissoes"
+    },
+    {
+      "arquivo": "routes/usuarios.routes.js",
+      "objeto": "router",
+      "metodo": "DELETE",
+      "rota": "/:id/permissoes"
+    },
+    {
+      "arquivo": "routes/usuarios.routes.js",
+      "objeto": "router",
+      "metodo": "GET",
+      "rota": "/:id/acessos"
+    },
+    {
+      "arquivo": "routes/usuarios.routes.js",
+      "objeto": "router",
+      "metodo": "GET",
+      "rota": "/:id/auditoria"
+    },
+    {
+      "arquivo": "routes/usuarios.routes.js",
+      "objeto": "router",
+      "metodo": "DELETE",
+      "rota": "/:id"
+    },
+    {
+      "arquivo": "routes/webhook.routes.js",
+      "objeto": "router",
+      "metodo": "GET",
+      "rota": "/"
+    },
+    {
+      "arquivo": "routes/webhook.routes.js",
+      "objeto": "router",
+      "metodo": "POST",
+      "rota": "/"
+    },
+    {
+      "arquivo": "routes/whatsapp.routes.js",
+      "objeto": "router",
+      "metodo": "GET",
+      "rota": "/"
+    },
+    {
+      "arquivo": "routes/whatsapp.routes.js",
+      "objeto": "router",
+      "metodo": "POST",
+      "rota": "/"
+    },
+    {
+      "arquivo": "server.js",
+      "objeto": "app",
+      "metodo": "USE",
+      "rota": "/css"
+    },
+    {
+      "arquivo": "server.js",
+      "objeto": "app",
+      "metodo": "USE",
+      "rota": "/js"
+    },
+    {
+      "arquivo": "server.js",
+      "objeto": "app",
+      "metodo": "USE",
+      "rota": "/img"
+    },
+    {
+      "arquivo": "server.js",
+      "objeto": "app",
+      "metodo": "USE",
+      "rota": "/assets"
+    },
+    {
+      "arquivo": "server.js",
+      "objeto": "app",
+      "metodo": "USE",
+      "rota": "/data"
+    },
+    {
+      "arquivo": "server.js",
+      "objeto": "app",
+      "metodo": "GET",
+      "rota": "/api/status"
+    },
+    {
+      "arquivo": "server.js",
+      "objeto": "app",
+      "metodo": "POST",
+      "rota": "/api/auth/login"
+    },
+    {
+      "arquivo": "server.js",
+      "objeto": "app",
+      "metodo": "GET",
+      "rota": "/api/auth/me"
+    },
+    {
+      "arquivo": "server.js",
+      "objeto": "app",
+      "metodo": "POST",
+      "rota": "/api/auth/alterar-senha"
+    },
+    {
+      "arquivo": "server.js",
+      "objeto": "app",
+      "metodo": "POST",
+      "rota": "/api/auth/logout"
+    },
+    {
+      "arquivo": "server.js",
+      "objeto": "app",
+      "metodo": "GET",
+      "rota": "/api/dashboard/resumo"
+    },
+    {
+      "arquivo": "server.js",
+      "objeto": "app",
+      "metodo": "USE",
+      "rota": "/api/eleitores"
+    },
+    {
+      "arquivo": "server.js",
+      "objeto": "app",
+      "metodo": "USE",
+      "rota": "/api/liderancas"
+    },
+    {
+      "arquivo": "server.js",
+      "objeto": "app",
+      "metodo": "USE",
+      "rota": "/api/usuarios"
+    },
+    {
+      "arquivo": "server.js",
+      "objeto": "app",
+      "metodo": "GET",
+      "rota": "/api/admin/resumo"
+    },
+    {
+      "arquivo": "server.js",
+      "objeto": "app",
+      "metodo": "GET",
+      "rota": "/api/usuario"
+    },
+    {
+      "arquivo": "server.js",
+      "objeto": "app",
+      "metodo": "GET",
+      "rota": "/api/mapa/resumo"
+    },
+    {
+      "arquivo": "server.js",
+      "objeto": "app",
+      "metodo": "GET",
+      "rota": "/alterar-senha.html"
+    },
+    {
+      "arquivo": "server.js",
+      "objeto": "app",
+      "metodo": "GET",
+      "rota": "/"
+    },
+    {
+      "arquivo": "server.js",
+      "objeto": "app",
+      "metodo": "GET",
+      "rota": "/index.html"
+    },
+    {
+      "arquivo": "server.js",
+      "objeto": "app",
+      "metodo": "GET",
+      "rota": "/${pagina}"
+    },
+    {
+      "arquivo": "server.js",
+      "objeto": "app",
+      "metodo": "GET",
+      "rota": "/${pagina}"
+    },
+    {
+      "arquivo": "server.js",
+      "objeto": "app",
+      "metodo": "GET",
+      "rota": "/dashboard"
+    },
+    {
+      "arquivo": "server.js",
+      "objeto": "app",
+      "metodo": "GET",
+      "rota": "/eleitores"
+    },
+    {
+      "arquivo": "server.js",
+      "objeto": "app",
+      "metodo": "GET",
+      "rota": "/cadastro"
+    },
+    {
+      "arquivo": "server.js",
+      "objeto": "app",
+      "metodo": "GET",
+      "rota": "/importar"
+    },
+    {
+      "arquivo": "server.js",
+      "objeto": "app",
+      "metodo": "GET",
+      "rota": "/mapa"
+    },
+    {
+      "arquivo": "server.js",
+      "objeto": "app",
+      "metodo": "GET",
+      "rota": "/liderancas"
+    },
+    {
+      "arquivo": "server.js",
+      "objeto": "app",
+      "metodo": "GET",
+      "rota": "/relatorios"
+    },
+    {
+      "arquivo": "server.js",
+      "objeto": "app",
+      "metodo": "GET",
+      "rota": "/relatorio-geral"
+    },
+    {
+      "arquivo": "server.js",
+      "objeto": "app",
+      "metodo": "GET",
+      "rota": "/configuracoes"
+    },
+    {
+      "arquivo": "server.js",
+      "objeto": "app",
+      "metodo": "GET",
+      "rota": "/usuarios"
+    },
+    {
+      "arquivo": "server.js",
+      "objeto": "app",
+      "metodo": "GET",
+      "rota": "/admin"
+    },
+    {
+      "arquivo": "server.js",
+      "objeto": "app",
+      "metodo": "USE",
+      "rota": "/api"
+    }
+  ],
+  "fetches": [
+    {
+      "arquivo": "public/admin.html",
+      "url": "/api/auth/me"
+    },
+    {
+      "arquivo": "public/admin.html",
+      "url": "/api/admin/resumo"
+    },
+    {
+      "arquivo": "public/admin.html",
+      "url": "/api/auth/logout"
+    },
+    {
+      "arquivo": "public/alterar-senha.html",
+      "url": "/api/auth/alterar-senha"
+    },
+    {
+      "arquivo": "public/alterar-senha.html",
+      "url": "/api/auth/me"
+    },
+    {
+      "arquivo": "public/alterar-senha.html",
+      "url": "/api/auth/logout"
+    },
+    {
+      "arquivo": "public/cidadao.html",
+      "url": "/api/cidadaos/${id}/perfil"
+    },
+    {
+      "arquivo": "public/configuracoes.html",
+      "url": "/api/auth/logout"
+    },
+    {
+      "arquivo": "public/configuracoes.html",
+      "url": "/api/auth/me"
+    },
+    {
+      "arquivo": "public/configuracoes.html",
+      "url": "/api/status"
+    },
+    {
+      "arquivo": "public/dashboard.html",
+      "url": "/api/dashboard/resumo"
+    },
+    {
+      "arquivo": "public/dashboard.html",
+      "url": "/api/auth/logout"
+    },
+    {
+      "arquivo": "public/demandas-gabinete.html",
+      "url": "/api/auth/logout"
+    },
+    {
+      "arquivo": "public/eleitores.html",
+      "url": "https://viacep.com.br/ws/${cep}/json/"
+    },
+    {
+      "arquivo": "public/eleitores.html",
+      "url": "/api/auth/me"
+    },
+    {
+      "arquivo": "public/eleitores.html",
+      "url": "${API}/resumo"
+    },
+    {
+      "arquivo": "public/eleitores.html",
+      "url": "${API}/${id}"
+    },
+    {
+      "arquivo": "public/eleitores.html",
+      "url": "${API}/${id}"
+    },
+    {
+      "arquivo": "public/eleitores.html",
+      "url": "/api/auth/logout"
+    },
+    {
+      "arquivo": "public/eleitores.html",
+      "url": "${API}/exportar-pdf?${parametros.toString()}"
+    },
+    {
+      "arquivo": "public/eleitores.html",
+      "url": "${API}/exportar-excel?${parametros.toString()}"
+    },
+    {
+      "arquivo": "public/eleitores.html",
+      "url": "${API}/modelo-excel"
+    },
+    {
+      "arquivo": "public/eleitores.html",
+      "url": "${API}/importar-excel"
+    },
+    {
+      "arquivo": "public/importar.html",
+      "url": "/api/auth/logout"
+    },
+    {
+      "arquivo": "public/importar.html",
+      "url": "/api/auth/me"
+    },
+    {
+      "arquivo": "public/index.html",
+      "url": "/api/auth/login"
+    },
+    {
+      "arquivo": "public/index.html",
+      "url": "/api/auth/me"
+    },
+    {
+      "arquivo": "public/interacoes.html",
+      "url": "/api/auth/logout"
+    },
+    {
+      "arquivo": "public/js/admin.js",
+      "url": "${API_ADMIN}/${id}"
+    },
+    {
+      "arquivo": "public/js/app.js",
+      "url": "/api/auth/me"
+    },
+    {
+      "arquivo": "public/js/app.js",
+      "url": "/api/auth/logout"
+    },
+    {
+      "arquivo": "public/js/app.js",
+      "url": "${API_DEMANDAS}/resumo"
+    },
+    {
+      "arquivo": "public/js/app.js",
+      "url": "${API_INTERACOES}/resumo"
+    },
+    {
+      "arquivo": "public/js/auth.js",
+      "url": "/api/auth/me"
+    },
+    {
+      "arquivo": "public/js/importar.js",
+      "url": "/api/eleitores/importar-excel"
+    },
+    {
+      "arquivo": "public/js/interacoes.js",
+      "url": "${API_INTERACOES}/importar-inteligente"
+    },
+    {
+      "arquivo": "public/js/mapa-leaflet.js",
+      "url": "${API_URL_ELEITORES}/resumo"
+    },
+    {
+      "arquivo": "public/js/mapa-leaflet.js",
+      "url": "${API_URL_ELEITORES}?limite=5000"
+    },
+    {
+      "arquivo": "public/js/mapa.js",
+      "url": "${API_URL_MAPA}/resumo"
+    },
+    {
+      "arquivo": "public/js/sidebar.js",
+      "url": "/api/auth/me"
+    },
+    {
+      "arquivo": "public/js/sidebar.js",
+      "url": "/api/auth/logout"
+    },
+    {
+      "arquivo": "public/liderancas.html",
+      "url": "/api/auth/logout"
+    },
+    {
+      "arquivo": "public/mapa.html",
+      "url": "/api/auth/logout"
+    },
+    {
+      "arquivo": "public/nova-demanda.html",
+      "url": "/api/auth/logout"
+    },
+    {
+      "arquivo": "public/protocolo-publico.html",
+      "url": "/api/publico/protocolo/${encodeURIComponent(protocoloNormalizado)}"
+    },
+    {
+      "arquivo": "public/protocolo.html",
+      "url": "/api/auth/logout"
+    },
+    {
+      "arquivo": "public/relatorio-legislativo.html",
+      "url": "/api/auth/logout"
+    },
+    {
+      "arquivo": "public/secretarias.html",
+      "url": "/api/auth/logout"
+    },
+    {
+      "arquivo": "public/usuarios-backup.html",
+      "url": "/api/auth/me"
+    },
+    {
+      "arquivo": "public/usuarios-backup.html",
+      "url": "${API_USUARIOS}/${id}/senha"
+    },
+    {
+      "arquivo": "public/usuarios-backup.html",
+      "url": "${API_USUARIOS}/${id}/status"
+    },
+    {
+      "arquivo": "public/usuarios-backup.html",
+      "url": "${API_USUARIOS}/${id}"
+    },
+    {
+      "arquivo": "public/usuarios-backup.html",
+      "url": "/api/auth/logout"
+    },
+    {
+      "arquivo": "public/usuarios.html",
+      "url": "/api/auth/me"
+    },
+    {
+      "arquivo": "public/usuarios.html",
+      "url": "${API_USUARIOS}/clientes"
+    },
+    {
+      "arquivo": "public/usuarios.html",
+      "url": "${API_USUARIOS}/${id}/senha"
+    },
+    {
+      "arquivo": "public/usuarios.html",
+      "url": "${API_USUARIOS}/${id}/status"
+    },
+    {
+      "arquivo": "public/usuarios.html",
+      "url": "${API_USUARIOS}/${usuarioEmEdicaoId}"
+    },
+    {
+      "arquivo": "public/usuarios.html",
+      "url": "${API_USUARIOS}/${id}/permissoes"
+    },
+    {
+      "arquivo": "public/usuarios.html",
+      "url": "${API_USUARIOS}/${usuarioPermissoesId}/permissoes"
+    },
+    {
+      "arquivo": "public/usuarios.html",
+      "url": "${API_USUARIOS}/${usuarioPermissoesId}/permissoes"
+    },
+    {
+      "arquivo": "public/usuarios.html",
+      "url": "${API_USUARIOS}/${id}/acessos"
+    },
+    {
+      "arquivo": "public/usuarios.html",
+      "url": "${API_USUARIOS}/${id}/auditoria"
+    },
+    {
+      "arquivo": "public/usuarios.html",
+      "url": "/api/auth/logout"
+    }
+  ],
+  "scriptsHtml": [
+    {
+      "arquivo": "public/cadastro.html",
+      "script": "js/app.js"
+    },
+    {
+      "arquivo": "public/configuracoes.html",
+      "script": "js/auth.js"
+    },
+    {
+      "arquivo": "public/configuracoes.html",
+      "script": "js/app.js"
+    },
+    {
+      "arquivo": "public/dashboard.html",
+      "script": "js/auth.js"
+    },
+    {
+      "arquivo": "public/dashboard.html",
+      "script": "js/app.js"
+    },
+    {
+      "arquivo": "public/dashboard.html",
+      "script": "js/sidebar.js"
+    },
+    {
+      "arquivo": "public/demandas-gabinete.html",
+      "script": "js/demandas-gabinete.js"
+    },
+    {
+      "arquivo": "public/demandas-gabinete.html",
+      "script": "js/auth.js"
+    },
+    {
+      "arquivo": "public/demandas-gabinete.html",
+      "script": "js/app.js"
+    },
+    {
+      "arquivo": "public/eleitores.html",
+      "script": "js/sidebar.js"
+    },
+    {
+      "arquivo": "public/eleitores.html",
+      "script": "js/app.js"
+    },
+    {
+      "arquivo": "public/importar.html",
+      "script": "js/auth.js"
+    },
+    {
+      "arquivo": "public/importar.html",
+      "script": "js/app.js"
+    },
+    {
+      "arquivo": "public/importar.html",
+      "script": "js/importar.js"
+    },
+    {
+      "arquivo": "public/index.html",
+      "script": "js/app.js"
+    },
+    {
+      "arquivo": "public/interacoes.html",
+      "script": "js/interacoes.js"
+    },
+    {
+      "arquivo": "public/interacoes.html",
+      "script": "js/auth.js"
+    },
+    {
+      "arquivo": "public/interacoes.html",
+      "script": "js/app.js"
+    },
+    {
+      "arquivo": "public/liderancas.html",
+      "script": "js/liderancas.js"
+    },
+    {
+      "arquivo": "public/liderancas.html",
+      "script": "js/auth.js"
+    },
+    {
+      "arquivo": "public/liderancas.html",
+      "script": "js/app.js"
+    },
+    {
+      "arquivo": "public/liderancas.html",
+      "script": "js/sidebar.js"
+    },
+    {
+      "arquivo": "public/liderancas.html",
+      "script": "js/app.js"
+    },
+    {
+      "arquivo": "public/mapa.html",
+      "script": "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    },
+    {
+      "arquivo": "public/mapa.html",
+      "script": "js/auth.js"
+    },
+    {
+      "arquivo": "public/mapa.html",
+      "script": "js/app.js"
+    },
+    {
+      "arquivo": "public/mapa.html",
+      "script": "js/mapa-leaflet.js?v=13"
+    },
+    {
+      "arquivo": "public/mapa.html",
+      "script": "js/sidebar.js"
+    },
+    {
+      "arquivo": "public/mapa.html",
+      "script": "js/app.js"
+    },
+    {
+      "arquivo": "public/nova-demanda.html",
+      "script": "js/nova-demanda.js"
+    },
+    {
+      "arquivo": "public/protocolo.html",
+      "script": "js/auth.js"
+    },
+    {
+      "arquivo": "public/protocolo.html",
+      "script": "js/app.js"
+    },
+    {
+      "arquivo": "public/relatorio-legislativo.html",
+      "script": "js/auth.js"
+    },
+    {
+      "arquivo": "public/relatorio-legislativo.html",
+      "script": "js/app.js"
+    },
+    {
+      "arquivo": "public/relatorios.html",
+      "script": "js/relatorios.js"
+    },
+    {
+      "arquivo": "public/relatorios.html",
+      "script": "js/app.js"
+    },
+    {
+      "arquivo": "public/secretarias.html",
+      "script": "js/auth.js"
+    },
+    {
+      "arquivo": "public/secretarias.html",
+      "script": "js/app.js"
+    }
+  ],
+  "tabelas": [
+    {
+      "arquivo": "corrigir-eleitores-lideranca.js",
+      "tabela": "information_schema"
+    },
+    {
+      "arquivo": "corrigir-eleitores-lideranca.js",
+      "tabela": "pg_constraint"
+    },
+    {
+      "arquivo": "database/initDatabase.js",
+      "tabela": "pg_constraint"
+    },
+    {
+      "arquivo": "database/initDatabase.js",
+      "tabela": "permissoes"
+    },
+    {
+      "arquivo": "database/initDatabase.js",
+      "tabela": "candidatos"
+    },
+    {
+      "arquivo": "database/initDatabase.js",
+      "tabela": "usuarios_lucas"
+    },
+    {
+      "arquivo": "database/initDatabase.js",
+      "tabela": "perfil_permissoes"
+    },
+    {
+      "arquivo": "database/initDatabase.js",
+      "tabela": "SET"
+    },
+    {
+      "arquivo": "database/initDatabase.js",
+      "tabela": "eleitores"
+    },
+    {
+      "arquivo": "database/initDatabase.js",
+      "tabela": "importacoes_eleitores"
+    },
+    {
+      "arquivo": "database/initDatabase.js",
+      "tabela": "usuario_permissoes"
+    },
+    {
+      "arquivo": "database/initDatabase.js",
+      "tabela": "acessos_usuarios"
+    },
+    {
+      "arquivo": "database/initDatabase.js",
+      "tabela": "auditoria_usuarios"
+    },
+    {
+      "arquivo": "routes/cidadaos.routes.js",
+      "tabela": "solicitacoes_publicas"
+    },
+    {
+      "arquivo": "routes/cidadaos.routes.js",
+      "tabela": "cidadaos"
+    },
+    {
+      "arquivo": "routes/cidadaos.routes.js",
+      "tabela": "historico_cidadaos"
+    },
+    {
+      "arquivo": "routes/demandas-gabinete.routes.js",
+      "tabela": "demandas_gabinete"
+    },
+    {
+      "arquivo": "routes/demandas-gabinete.routes.js",
+      "tabela": "data"
+    },
+    {
+      "arquivo": "routes/demandas-gabinete.routes.js",
+      "tabela": "CURRENT_DATE"
+    },
+    {
+      "arquivo": "routes/demandas-gabinete.routes.js",
+      "tabela": "dg"
+    },
+    {
+      "arquivo": "routes/demandas-gabinete.routes.js",
+      "tabela": "cidadaos"
+    },
+    {
+      "arquivo": "routes/demandas-gabinete.routes.js",
+      "tabela": "importacoes_gabinete"
+    },
+    {
+      "arquivo": "routes/demandas.routes.js",
+      "tabela": "demandas"
+    },
+    {
+      "arquivo": "routes/eleitores.routes.js",
+      "tabela": "eleitores"
+    },
+    {
+      "arquivo": "routes/eleitores.routes.js",
+      "tabela": "liderancas"
+    },
+    {
+      "arquivo": "routes/eleitores.routes.js",
+      "tabela": "importacoes_eleitores"
+    },
+    {
+      "arquivo": "routes/interacoes.routes.js",
+      "tabela": "interacoes_mensais"
+    },
+    {
+      "arquivo": "routes/liderancas.routes.js",
+      "tabela": "liderancas"
+    },
+    {
+      "arquivo": "routes/liderancas.routes.js",
+      "tabela": "demandas_gabinete"
+    },
+    {
+      "arquivo": "routes/relatorios.dashboard.routes.js",
+      "tabela": "demandas_historicas"
+    },
+    {
+      "arquivo": "routes/relatorios.dashboard.routes.js",
+      "tabela": "atividades_legislativas"
+    },
+    {
+      "arquivo": "routes/relatorios.routes.js",
+      "tabela": "demandas_historicas"
+    },
+    {
+      "arquivo": "routes/relatorios.routes.js",
+      "tabela": "atividades_legislativas"
+    },
+    {
+      "arquivo": "routes/usuarios.routes.js",
+      "tabela": "usuarios_lucas"
+    },
+    {
+      "arquivo": "routes/usuarios.routes.js",
+      "tabela": "candidatos"
+    },
+    {
+      "arquivo": "routes/usuarios.routes.js",
+      "tabela": "permissoes"
+    },
+    {
+      "arquivo": "routes/usuarios.routes.js",
+      "tabela": "usuario_permissoes"
+    },
+    {
+      "arquivo": "routes/usuarios.routes.js",
+      "tabela": "acessos_usuarios"
+    },
+    {
+      "arquivo": "routes/usuarios.routes.js",
+      "tabela": "auditoria_usuarios"
+    },
+    {
+      "arquivo": "routes/usuarios.routes.js",
+      "tabela": "perfil_permissoes"
+    },
+    {
+      "arquivo": "routes/usuarios.routes.js",
+      "tabela": "SET"
+    },
+    {
+      "arquivo": "routes/usuarios.routes.js",
+      "tabela": "eleitores"
+    },
+    {
+      "arquivo": "server.js",
+      "tabela": "usuarios_lucas"
+    },
+    {
+      "arquivo": "server.js",
+      "tabela": "eleitores"
+    },
+    {
+      "arquivo": "server.js",
+      "tabela": "liderancas"
+    },
+    {
+      "arquivo": "server.js",
+      "tabela": "acessos_usuarios"
+    },
+    {
+      "arquivo": "server.js",
+      "tabela": "auditoria_usuarios"
+    },
+    {
+      "arquivo": "server.js",
+      "tabela": "candidatos"
+    },
+    {
+      "arquivo": "services/atendimento.service.js",
+      "tabela": "cidadaos"
+    },
+    {
+      "arquivo": "services/atendimento.service.js",
+      "tabela": "solicitacoes_publicas"
+    }
+  ],
+  "tabelasUnicas": [
+    "acessos_usuarios",
+    "atividades_legislativas",
+    "auditoria_usuarios",
+    "candidatos",
+    "cidadaos",
+    "current_date",
+    "data",
+    "demandas",
+    "demandas_gabinete",
+    "demandas_historicas",
+    "dg",
+    "eleitores",
+    "historico_cidadaos",
+    "importacoes_eleitores",
+    "importacoes_gabinete",
+    "information_schema",
+    "interacoes_mensais",
+    "liderancas",
+    "perfil_permissoes",
+    "permissoes",
+    "pg_constraint",
+    "set",
+    "solicitacoes_publicas",
+    "usuario_permissoes",
+    "usuarios_lucas"
+  ],
+  "fetchesSemRota": []
+}

@@ -798,7 +798,7 @@ async function garantirCandidatoInicial() {
       WHERE nome = $1
       LIMIT 1
     `,
-    ["Lucas Mourão"]
+    ["Lucas e Cássio 2027"]
   );
 
   if (candidatoExistente.rows.length > 0) {
@@ -818,7 +818,7 @@ async function garantirCandidatoInicial() {
       RETURNING id
     `,
     [
-      "Lucas Mourão",
+      "Lucas e Cássio 2027",
       "Deputado Estadual",
       "Praia Grande",
       "SP"

@@ -4358,3 +4358,63 @@ body.xavier-dashboard .dashboard-mobile-top .btn-sair-discreto:hover {
 .modal-sucesso-card .btn-secondary:hover{
   background:#1d4ed8;
 }
+
+/* =====================================================
+   DASHBOARD ELEITORAL — RANKINGS
+===================================================== */
+
+.ranking-item {
+  width: 100%;
+  margin-bottom: 18px;
+}
+
+.ranking-cabecalho {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 7px;
+  color: #ffffff;
+  font-size: 14px;
+}
+
+.ranking-cabecalho span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ranking-cabecalho strong {
+  flex-shrink: 0;
+  min-width: 32px;
+  text-align: right;
+  color: #ffffff;
+  font-size: 15px;
+}
+
+.ranking-barra {
+  width: 100%;
+  height: 9px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+}
+
+.ranking-preenchimento {
+  height: 100%;
+  min-width: 6px;
+  background: linear-gradient(
+    90deg,
+    #2563eb,
+    #38bdf8
+  );
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+
+#rankingSecretarias,
+#rankingBairros {
+  width: 100%;
+  padding: 24px 28px;
+  box-sizing: border-box;
+}

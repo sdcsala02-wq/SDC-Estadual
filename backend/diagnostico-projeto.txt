@@ -1,0 +1,322 @@
+======================================================
+DIAGNÓSTICO DO PROJETO — LUCAS E CÁSSIO 2027
+======================================================
+
+Pasta analisada: D:\documentos\Lucas e Cássio 2027\backend
+Total de arquivos: 69
+Arquivos JavaScript: 33
+Arquivos HTML: 23
+Arquivos CSS: 3
+Rotas Express encontradas: 89
+Chamadas fetch encontradas: 64
+Tabelas SQL identificadas: 25
+
+======================================================
+ESTRUTURA DE ARQUIVOS
+======================================================
+.env
+arquivos-css.txt
+arquivos-html.txt
+arquivos-js.txt
+corrigir-eleitores-lideranca.js
+database/initDatabase.js
+db.js
+diagnostico.js
+estrutura.txt
+package-lock.json
+package.json
+public/.gitignore
+public/admin.html
+public/alterar-senha.html
+public/cadastro.html
+public/cidadao.html
+public/cidadaos.html
+public/configuracoes.html
+public/css/dashboard-executivo.css
+public/css/relatorios.css
+public/css/style.css
+public/dashboard.html
+public/data/bairros-praia-grande.geojson
+public/demandas-gabinete.html
+public/eleitores.html
+public/img/Edu.png
+public/importar.html
+public/index.html
+public/interacoes.html
+public/js/admin.js
+public/js/app.js
+public/js/auth.js
+public/js/demandas-gabinete.js
+public/js/importar.js
+public/js/interacoes.js
+public/js/liderancas.js
+public/js/mapa-leaflet.js
+public/js/mapa.js
+public/js/nova-demanda.js
+public/js/relatorios.js
+public/js/sidebar.js
+public/liderancas.html
+public/mapa.html
+public/nova-demanda.html
+public/protocolo-publico.html
+public/protocolo.html
+public/relatorio-geral.html
+public/relatorio-legislativo.html
+public/relatorios.html
+public/secretarias.html
+public/usuarios-backup.html
+public/usuarios.html
+routes/cidadaos.routes.js
+routes/conversas.routes.js
+routes/demandas-gabinete.routes.js
+routes/demandas.routes.js
+routes/eleitores.routes.js
+routes/interacoes.routes.js
+routes/liderancas.routes.js
+routes/relatorios.dashboard.routes.js
+routes/relatorios.routes.js
+routes/usuarios.routes.js
+routes/webhook.routes.js
+routes/whatsapp.routes.js
+server.js
+services/atendimento.service.js
+services/chatbot.service.js
+services/openai.service.js
+services/whatsapp.service.js
+
+======================================================
+ROTAS EXPRESS
+======================================================
+GET     /                                        routes/cidadaos.routes.js
+GET     /:id/perfil                              routes/cidadaos.routes.js
+GET     /                                        routes/conversas.routes.js
+GET     /resumo                                  routes/demandas-gabinete.routes.js
+GET     /                                        routes/demandas-gabinete.routes.js
+POST    /importar                                routes/demandas-gabinete.routes.js
+POST    /                                        routes/demandas.routes.js
+GET     /                                        routes/demandas.routes.js
+GET     /dashboard/resumo                        routes/demandas.routes.js
+GET     /exportar/excel                          routes/demandas.routes.js
+GET     /exportar/pdf                            routes/demandas.routes.js
+PUT     /:id                                     routes/demandas.routes.js
+PUT     /:id/status                              routes/demandas.routes.js
+GET     /                                        routes/eleitores.routes.js
+GET     /resumo                                  routes/eleitores.routes.js
+GET     /modelo-excel                            routes/eleitores.routes.js
+POST    /importar-excel                          routes/eleitores.routes.js
+GET     /exportar-excel                          routes/eleitores.routes.js
+GET     /exportar-pdf                            routes/eleitores.routes.js
+GET     /:id                                     routes/eleitores.routes.js
+POST    /                                        routes/eleitores.routes.js
+PUT     /:id                                     routes/eleitores.routes.js
+DELETE  /:id                                     routes/eleitores.routes.js
+GET     /resumo                                  routes/interacoes.routes.js
+GET     /mensal                                  routes/interacoes.routes.js
+GET     /total/:ano                              routes/interacoes.routes.js
+POST    /importar                                routes/interacoes.routes.js
+GET     /                                        routes/liderancas.routes.js
+GET     /resumo                                  routes/liderancas.routes.js
+GET     /bairro/:bairro                          routes/liderancas.routes.js
+POST    /                                        routes/liderancas.routes.js
+PUT     /:id                                     routes/liderancas.routes.js
+DELETE  /:id                                     routes/liderancas.routes.js
+GET     /dashboard                               routes/relatorios.dashboard.routes.js
+GET     /atividades/dashboard                    routes/relatorios.dashboard.routes.js
+POST    /importar                                routes/relatorios.routes.js
+POST    /atividades/importar                     routes/relatorios.routes.js
+GET     /perfis                                  routes/usuarios.routes.js
+GET     /clientes                                routes/usuarios.routes.js
+GET     /                                        routes/usuarios.routes.js
+GET     /:id                                     routes/usuarios.routes.js
+POST    /                                        routes/usuarios.routes.js
+PUT     /:id                                     routes/usuarios.routes.js
+PATCH   /:id/senha                               routes/usuarios.routes.js
+PATCH   /:id/status                              routes/usuarios.routes.js
+GET     /:id/permissoes                          routes/usuarios.routes.js
+PUT     /:id/permissoes                          routes/usuarios.routes.js
+DELETE  /:id/permissoes                          routes/usuarios.routes.js
+GET     /:id/acessos                             routes/usuarios.routes.js
+GET     /:id/auditoria                           routes/usuarios.routes.js
+DELETE  /:id                                     routes/usuarios.routes.js
+GET     /                                        routes/webhook.routes.js
+POST    /                                        routes/webhook.routes.js
+GET     /                                        routes/whatsapp.routes.js
+POST    /                                        routes/whatsapp.routes.js
+USE     /css                                     server.js
+USE     /js                                      server.js
+USE     /img                                     server.js
+USE     /assets                                  server.js
+USE     /data                                    server.js
+GET     /api/status                              server.js
+POST    /api/auth/login                          server.js
+GET     /api/auth/me                             server.js
+POST    /api/auth/alterar-senha                  server.js
+POST    /api/auth/logout                         server.js
+GET     /api/dashboard/resumo                    server.js
+USE     /api/eleitores                           server.js
+USE     /api/liderancas                          server.js
+USE     /api/usuarios                            server.js
+GET     /api/admin/resumo                        server.js
+GET     /api/usuario                             server.js
+GET     /api/mapa/resumo                         server.js
+GET     /alterar-senha.html                      server.js
+GET     /                                        server.js
+GET     /index.html                              server.js
+GET     /${pagina}                               server.js
+GET     /${pagina}                               server.js
+GET     /dashboard                               server.js
+GET     /eleitores                               server.js
+GET     /cadastro                                server.js
+GET     /importar                                server.js
+GET     /mapa                                    server.js
+GET     /liderancas                              server.js
+GET     /relatorios                              server.js
+GET     /relatorio-geral                         server.js
+GET     /configuracoes                           server.js
+GET     /usuarios                                server.js
+GET     /admin                                   server.js
+USE     /api                                     server.js
+
+======================================================
+CHAMADAS FETCH
+======================================================
+/api/auth/me -> public/admin.html
+/api/admin/resumo -> public/admin.html
+/api/auth/logout -> public/admin.html
+/api/auth/alterar-senha -> public/alterar-senha.html
+/api/auth/me -> public/alterar-senha.html
+/api/auth/logout -> public/alterar-senha.html
+/api/cidadaos/${id}/perfil -> public/cidadao.html
+/api/auth/logout -> public/configuracoes.html
+/api/auth/me -> public/configuracoes.html
+/api/status -> public/configuracoes.html
+/api/dashboard/resumo -> public/dashboard.html
+/api/auth/logout -> public/dashboard.html
+/api/auth/logout -> public/demandas-gabinete.html
+https://viacep.com.br/ws/${cep}/json/ -> public/eleitores.html
+/api/auth/me -> public/eleitores.html
+${API}/resumo -> public/eleitores.html
+${API}/${id} -> public/eleitores.html
+${API}/${id} -> public/eleitores.html
+/api/auth/logout -> public/eleitores.html
+${API}/exportar-pdf?${parametros.toString()} -> public/eleitores.html
+${API}/exportar-excel?${parametros.toString()} -> public/eleitores.html
+${API}/modelo-excel -> public/eleitores.html
+${API}/importar-excel -> public/eleitores.html
+/api/auth/logout -> public/importar.html
+/api/auth/me -> public/importar.html
+/api/auth/login -> public/index.html
+/api/auth/me -> public/index.html
+/api/auth/logout -> public/interacoes.html
+${API_ADMIN}/${id} -> public/js/admin.js
+/api/auth/me -> public/js/app.js
+/api/auth/logout -> public/js/app.js
+${API_DEMANDAS}/resumo -> public/js/app.js
+${API_INTERACOES}/resumo -> public/js/app.js
+/api/auth/me -> public/js/auth.js
+/api/eleitores/importar-excel -> public/js/importar.js
+${API_INTERACOES}/importar-inteligente -> public/js/interacoes.js
+${API_URL_ELEITORES}/resumo -> public/js/mapa-leaflet.js
+${API_URL_ELEITORES}?limite=5000 -> public/js/mapa-leaflet.js
+${API_URL_MAPA}/resumo -> public/js/mapa.js
+/api/auth/me -> public/js/sidebar.js
+/api/auth/logout -> public/js/sidebar.js
+/api/auth/logout -> public/liderancas.html
+/api/auth/logout -> public/mapa.html
+/api/auth/logout -> public/nova-demanda.html
+/api/publico/protocolo/${encodeURIComponent(protocoloNormalizado)} -> public/protocolo-publico.html
+/api/auth/logout -> public/protocolo.html
+/api/auth/logout -> public/relatorio-legislativo.html
+/api/auth/logout -> public/secretarias.html
+/api/auth/me -> public/usuarios-backup.html
+${API_USUARIOS}/${id}/senha -> public/usuarios-backup.html
+${API_USUARIOS}/${id}/status -> public/usuarios-backup.html
+${API_USUARIOS}/${id} -> public/usuarios-backup.html
+/api/auth/logout -> public/usuarios-backup.html
+/api/auth/me -> public/usuarios.html
+${API_USUARIOS}/clientes -> public/usuarios.html
+${API_USUARIOS}/${id}/senha -> public/usuarios.html
+${API_USUARIOS}/${id}/status -> public/usuarios.html
+${API_USUARIOS}/${usuarioEmEdicaoId} -> public/usuarios.html
+${API_USUARIOS}/${id}/permissoes -> public/usuarios.html
+${API_USUARIOS}/${usuarioPermissoesId}/permissoes -> public/usuarios.html
+${API_USUARIOS}/${usuarioPermissoesId}/permissoes -> public/usuarios.html
+${API_USUARIOS}/${id}/acessos -> public/usuarios.html
+${API_USUARIOS}/${id}/auditoria -> public/usuarios.html
+/api/auth/logout -> public/usuarios.html
+
+======================================================
+SCRIPTS UTILIZADOS NAS PÁGINAS HTML
+======================================================
+public/cadastro.html -> js/app.js
+public/configuracoes.html -> js/auth.js
+public/configuracoes.html -> js/app.js
+public/dashboard.html -> js/auth.js
+public/dashboard.html -> js/app.js
+public/dashboard.html -> js/sidebar.js
+public/demandas-gabinete.html -> js/demandas-gabinete.js
+public/demandas-gabinete.html -> js/auth.js
+public/demandas-gabinete.html -> js/app.js
+public/eleitores.html -> js/sidebar.js
+public/eleitores.html -> js/app.js
+public/importar.html -> js/auth.js
+public/importar.html -> js/app.js
+public/importar.html -> js/importar.js
+public/index.html -> js/app.js
+public/interacoes.html -> js/interacoes.js
+public/interacoes.html -> js/auth.js
+public/interacoes.html -> js/app.js
+public/liderancas.html -> js/liderancas.js
+public/liderancas.html -> js/auth.js
+public/liderancas.html -> js/app.js
+public/liderancas.html -> js/sidebar.js
+public/liderancas.html -> js/app.js
+public/mapa.html -> https://unpkg.com/leaflet@1.9.4/dist/leaflet.js
+public/mapa.html -> js/auth.js
+public/mapa.html -> js/app.js
+public/mapa.html -> js/mapa-leaflet.js?v=13
+public/mapa.html -> js/sidebar.js
+public/mapa.html -> js/app.js
+public/nova-demanda.html -> js/nova-demanda.js
+public/protocolo.html -> js/auth.js
+public/protocolo.html -> js/app.js
+public/relatorio-legislativo.html -> js/auth.js
+public/relatorio-legislativo.html -> js/app.js
+public/relatorios.html -> js/relatorios.js
+public/relatorios.html -> js/app.js
+public/secretarias.html -> js/auth.js
+public/secretarias.html -> js/app.js
+
+======================================================
+TABELAS SQL
+======================================================
+acessos_usuarios
+atividades_legislativas
+auditoria_usuarios
+candidatos
+cidadaos
+current_date
+data
+demandas
+demandas_gabinete
+demandas_historicas
+dg
+eleitores
+historico_cidadaos
+importacoes_eleitores
+importacoes_gabinete
+information_schema
+interacoes_mensais
+liderancas
+perfil_permissoes
+permissoes
+pg_constraint
+set
+solicitacoes_publicas
+usuario_permissoes
+usuarios_lucas
+
+======================================================
+POSSÍVEIS CHAMADAS DE API SEM ROTA LOCAL EXATA
+======================================================
+Nenhuma inconsistência simples encontrada.

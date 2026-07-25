@@ -1406,6 +1406,50 @@ app.get(
           [candidatoId]
         );
 
+      // ================================
+      // ELEITORES POR BAIRRO
+      // ================================
+
+      const bairrosResultado = await db.query(`
+    SELECT
+        COALESCE(NULLIF(TRIM(bairro), ''), 'Não informado') AS bairro,
+        COUNT(*)::INTEGER AS total
+    FROM eleitores
+    WHERE candidato_id = $1
+    GROUP BY bairro
+    ORDER BY total DESC
+    LIMIT 10
+`, [candidatoId]);
+
+      // ================================
+      // ELEITORES POR CIDADE
+      // ================================
+
+      const cidadesResultado = await db.query(`
+    SELECT
+        COALESCE(NULLIF(TRIM(cidade), ''), 'Não informado') AS cidade,
+        COUNT(*)::INTEGER AS total
+    FROM eleitores
+    WHERE candidato_id = $1
+    GROUP BY cidade
+    ORDER BY total DESC
+`, [candidatoId]);
+
+      // ================================
+      // EVOLUÇÃO MENSAL
+      // ================================
+
+      const evolucaoMensalResultado = await db.query(`
+    SELECT
+        EXTRACT(YEAR FROM criado_em)::INTEGER AS ano,
+        EXTRACT(MONTH FROM criado_em)::INTEGER AS mes,
+        COUNT(*)::INTEGER AS total
+    FROM eleitores
+    WHERE candidato_id = $1
+    GROUP BY ano, mes
+    ORDER BY ano, mes
+`, [candidatoId]);
+
       const resumo =
         resumoResultado.rows[0] || {};
 
@@ -1414,31 +1458,32 @@ app.get(
 
         resumo: {
           total_eleitores:
-            Number(
-              resumo.total_eleitores
-            ) || 0,
+            Number(resumo.total_eleitores) || 0,
 
           total_cidades:
-            Number(
-              resumo.total_cidades
-            ) || 0,
+            Number(resumo.total_cidades) || 0,
 
           novos_cadastros:
-            Number(
-              resumo.novos_cadastros
-            ) || 0,
+            Number(resumo.novos_cadastros) || 0,
 
           total_liderancas:
             totalLiderancas,
 
           bairros_atendidos:
-            Number(
-              resumo.bairros_atendidos
-            ) || 0
+            Number(resumo.bairros_atendidos) || 0
         },
 
         ultimos_eleitores:
-          ultimosResultado.rows
+          ultimosResultado.rows,
+
+        por_bairro:
+          bairrosResultado.rows,
+
+        por_cidade:
+          cidadesResultado.rows,
+
+        evolucao_mensal:
+          evolucaoMensalResultado.rows
       });
 
     } catch (erro) {
