@@ -14,31 +14,148 @@
 
 <body>
 
-  <div class="hero">
-    <div class="overlay"></div>
+  <div class="hero hero-premium">
 
-    <div class="conteudo centro-index">
-      <div class="logo-x">SDC</div>
+    <div class="hero-luz hero-luz-esquerda"></div>
+    <div class="hero-luz hero-luz-direita"></div>
 
-      <h1>Sistema de Lideranças</h1>
+    <div class="hero-circulos hero-circulos-esquerda"></div>
+    <div class="hero-circulos hero-circulos-direita"></div>
 
-      <p>
-        Sala SDC — Serviços de Dados e Comunicação
-      </p>
+    <main class="landing-container">
 
-      <div class="botoes">
+      <div class="marca-sdc">
 
-        <button type="button" class="btn-principal" onclick="abrirLogin()">
-          Acessar Plataforma
-        </button>
+        <div class="simbolo-sdc" aria-hidden="true">
 
-        <button type="button" class="btn-secundario" onclick="abrirLogin()">
-          Painel de Transparência
-        </button>
+          <div class="simbolo-barras">
+            <span class="barra-sdc barra-1"></span>
+            <span class="barra-sdc barra-2"></span>
+            <span class="barra-sdc barra-3"></span>
+          </div>
+
+          <span class="arco-sdc"></span>
+
+        </div>
+
+        <div class="marca-texto">
+          <strong>SDC</strong>
+
+          <span>
+            Serviços de Dados<br>
+            e Comunicação
+          </span>
+        </div>
 
       </div>
-    </div>
-  </div>
+
+      <section class="hero-conteudo">
+
+        <span class="hero-etiqueta">
+          Plataforma de Gestão Eleitoral
+        </span>
+
+        <h1>
+          Sistema de Lideranças
+        </h1>
+
+        <div class="titulo-detalhe"></div>
+
+        <p class="hero-subtitulo">
+          Gestão inteligente de eleitores, lideranças e informações
+          estratégicas para campanhas organizadas e eficientes.
+        </p>
+
+        <div class="hero-botoes">
+
+          <button type="button" class="btn-landing btn-acessar" onclick="abrirLogin()">
+            <span class="btn-icone">↪</span>
+            Acessar Plataforma
+          </button>
+
+          <button type="button" class="btn-landing btn-transparencia" onclick="abrirLogin()">
+            <span class="btn-icone">◉</span>
+            Painel de Transparência
+          </button>
+
+        </div>
+
+      </section>
+
+      <section class="recursos-plataforma">
+
+        <article class="recurso-item">
+          <div class="recurso-icone recurso-azul">
+            👥
+          </div>
+
+          <span>
+            Gestão de<br>
+            Eleitores
+          </span>
+        </article>
+
+        <article class="recurso-item">
+          <div class="recurso-icone recurso-roxo">
+            ◇
+          </div>
+
+          <span>
+            Gestão de<br>
+            Lideranças
+          </span>
+        </article>
+
+        <article class="recurso-item">
+          <div class="recurso-icone recurso-verde">
+            💬
+          </div>
+
+          <span>
+            CRM e<br>
+            Comunicação
+          </span>
+        </article>
+
+        <article class="recurso-item">
+          <div class="recurso-icone recurso-dourado">
+            ◔
+          </div>
+
+          <span>
+            Dashboard<br>
+            Executivo
+          </span>
+        </article>
+
+        <article class="recurso-item">
+          <div class="recurso-icone recurso-rosa">
+            ⌖
+          </div>
+
+          <span>
+            Mapa<br>
+            Territorial
+          </span>
+        </article>
+
+      </section>
+
+      <footer class="landing-rodape">
+
+        <span>
+          Sala SDC • Serviços de Dados e Comunicação
+        </span>
+
+        <small>
+          Lucas e Cássio 2027 • Versão 1.0
+        </small>
+
+      </footer>
+
+    </main>
+
+  </div>  
 
 
   <div id="modalLogin" class="modal-login" role="dialog" aria-modal="true" aria-labelledby="tituloLogin">
