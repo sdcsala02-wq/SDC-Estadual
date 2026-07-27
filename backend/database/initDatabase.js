@@ -423,101 +423,156 @@ async function criarEstruturaPrincipal() {
 }
 
 async function atualizarEstruturasExistentes() {
+  // ======================================================
+  // COLUNAS ADICIONAIS DAS TABELAS EXISTENTES
+  // ======================================================
+
   await db.query(`
-    ALTER TABLE candidatos
+    ALTER TABLE public.candidatos
     ADD COLUMN IF NOT EXISTS atualizado_em
     TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
 
-    ALTER TABLE usuarios_lucas
+    ALTER TABLE public.usuarios_lucas
     ADD COLUMN IF NOT EXISTS cpf VARCHAR(11);
 
-    ALTER TABLE usuarios_lucas
+    ALTER TABLE public.usuarios_lucas
     ADD COLUMN IF NOT EXISTS login VARCHAR(80);
 
-    ALTER TABLE usuarios_lucas
+    ALTER TABLE public.usuarios_lucas
     ADD COLUMN IF NOT EXISTS ultimo_acesso_em TIMESTAMP;
 
-    ALTER TABLE usuarios_lucas
+    ALTER TABLE public.usuarios_lucas
     ADD COLUMN IF NOT EXISTS ultimo_ip VARCHAR(100);
 
-    ALTER TABLE usuarios_lucas
+    ALTER TABLE public.usuarios_lucas
     ADD COLUMN IF NOT EXISTS tentativas_login_falhas
     INTEGER DEFAULT 0;
 
-    ALTER TABLE usuarios_lucas
+    ALTER TABLE public.usuarios_lucas
     ADD COLUMN IF NOT EXISTS bloqueado_ate TIMESTAMP;
 
-    ALTER TABLE usuarios_lucas
+    ALTER TABLE public.usuarios_lucas
     ADD COLUMN IF NOT EXISTS senha_alterada_em TIMESTAMP;
 
-    ALTER TABLE usuarios_lucas
+    ALTER TABLE public.usuarios_lucas
     ADD COLUMN IF NOT EXISTS precisa_alterar_senha
     BOOLEAN DEFAULT FALSE;
 
-    ALTER TABLE usuarios_lucas
+    ALTER TABLE public.usuarios_lucas
     ADD COLUMN IF NOT EXISTS criado_por_usuario_id INTEGER;
 
-    ALTER TABLE usuarios_lucas
+    ALTER TABLE public.usuarios_lucas
     ADD COLUMN IF NOT EXISTS atualizado_em
     TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
 
-    ALTER TABLE usuarios_lucas
+    ALTER TABLE public.usuarios_lucas
     ALTER COLUMN email DROP NOT NULL;
 
-    ALTER TABLE eleitores
+    ALTER TABLE public.eleitores
     ADD COLUMN IF NOT EXISTS criado_por_usuario_id INTEGER;
 
-    ALTER TABLE eleitores
+    ALTER TABLE public.eleitores
     ADD COLUMN IF NOT EXISTS atualizado_por_usuario_id INTEGER;
 
+    ALTER TABLE public.eleitores
+    ADD COLUMN IF NOT EXISTS lideranca_id INTEGER;
+  `);
+
+  // ======================================================
+  // USUÁRIO RESPONSÁVEL PELA CRIAÇÃO DE OUTRO USUÁRIO
+  // ======================================================
+
+  await db.query(`
     DO $$
     BEGIN
       IF NOT EXISTS (
         SELECT 1
         FROM pg_constraint
         WHERE conname = 'fk_usuario_criado_por'
+          AND conrelid = 'public.usuarios_lucas'::regclass
       ) THEN
-        ALTER TABLE usuarios_lucas
+        ALTER TABLE public.usuarios_lucas
         ADD CONSTRAINT fk_usuario_criado_por
         FOREIGN KEY (criado_por_usuario_id)
-        REFERENCES usuarios_lucas(id)
+        REFERENCES public.usuarios_lucas(id)
         ON DELETE SET NULL;
       END IF;
     END
     $$;
+  `);
 
+  // ======================================================
+  // USUÁRIO RESPONSÁVEL PELO CADASTRO DO ELEITOR
+  // ======================================================
+
+  await db.query(`
     DO $$
     BEGIN
       IF NOT EXISTS (
         SELECT 1
         FROM pg_constraint
         WHERE conname = 'fk_eleitor_criado_por'
+          AND conrelid = 'public.eleitores'::regclass
       ) THEN
-        ALTER TABLE eleitores
+        ALTER TABLE public.eleitores
         ADD CONSTRAINT fk_eleitor_criado_por
         FOREIGN KEY (criado_por_usuario_id)
-        REFERENCES usuarios_lucas(id)
+        REFERENCES public.usuarios_lucas(id)
         ON DELETE SET NULL;
       END IF;
     END
     $$;
+  `);
 
+  // ======================================================
+  // USUÁRIO RESPONSÁVEL PELA ÚLTIMA ATUALIZAÇÃO
+  // ======================================================
+
+  await db.query(`
     DO $$
     BEGIN
       IF NOT EXISTS (
         SELECT 1
         FROM pg_constraint
         WHERE conname = 'fk_eleitor_atualizado_por'
+          AND conrelid = 'public.eleitores'::regclass
       ) THEN
-        ALTER TABLE eleitores
+        ALTER TABLE public.eleitores
         ADD CONSTRAINT fk_eleitor_atualizado_por
         FOREIGN KEY (atualizado_por_usuario_id)
-        REFERENCES usuarios_lucas(id)
+        REFERENCES public.usuarios_lucas(id)
         ON DELETE SET NULL;
       END IF;
     END
     $$;
   `);
+
+  // ======================================================
+  // LIDERANÇA VINCULADA AO ELEITOR
+  // ======================================================
+
+  await db.query(`
+    DO $$
+    BEGIN
+      IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_eleitores_lideranca'
+          AND conrelid = 'public.eleitores'::regclass
+      ) THEN
+        ALTER TABLE public.eleitores
+        ADD CONSTRAINT fk_eleitores_lideranca
+        FOREIGN KEY (lideranca_id)
+        REFERENCES public.liderancas(id)
+        ON DELETE SET NULL;
+      END IF;
+    END
+    $$;
+  `);
+
+  console.log(
+    "Estruturas existentes e vínculos dos eleitores verificados."
+  );
 }
 
 async function criarEstruturaPermissoes() {
