@@ -2520,6 +2520,22 @@ router.post("/", async (req, res) => {
       diagnosticoBanco.rows[0]
     );
 
+    const diagnosticoColuna = await pool.query(`
+  SELECT
+    table_schema,
+    table_name,
+    column_name
+  FROM information_schema.columns
+  WHERE table_schema = 'public'
+    AND table_name = 'eleitores'
+    AND column_name = 'lideranca_id'
+`);
+
+    console.log(
+      ">>> COLUNA LIDERANCA NO BANCO DO BACKEND:",
+      diagnosticoColuna.rows
+    );
+
     const resultado = await pool.query(
       `
         INSERT INTO eleitores (
