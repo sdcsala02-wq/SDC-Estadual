@@ -2507,6 +2507,19 @@ router.post("/", async (req, res) => {
 
     console.log(">>> CADASTRO ELEITOR - VERSÃO NOVA <<<");
 
+    const diagnosticoBanco = await pool.query(`
+  SELECT
+    current_database() AS banco,
+    current_schema() AS schema,
+    inet_server_addr() AS servidor,
+    inet_server_port() AS porta
+`);
+
+    console.log(
+      ">>> BANCO USADO PELO BACKEND:",
+      diagnosticoBanco.rows[0]
+    );
+
     const resultado = await pool.query(
       `
         INSERT INTO eleitores (
