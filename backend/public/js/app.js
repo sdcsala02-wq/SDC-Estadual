@@ -47,6 +47,8 @@ async function logoutSistema() {
   localStorage.clear();
   sessionStorage.clear();
 
+  window.history.pushState(null, "", "/index.html");
+  window.history.go(1);
   window.location.replace("/index.html");
 }
 
@@ -583,3 +585,25 @@ document.addEventListener(
     }
   }
 );
+
+/* =========================================================
+   BLOQUEIA RETORNO APÓS LOGOUT (BOTÃO VOLTAR)
+========================================================= */
+
+window.addEventListener("pageshow", async function (event) {
+
+  // Página restaurada pelo cache do navegador
+  if (event.persisted) {
+
+    const pagina =
+      window.location.pathname.split("/").pop();
+
+    if (pagina !== "index.html" && pagina !== "") {
+
+      await carregarUsuarioLogado();
+
+    }
+
+  }
+
+});
