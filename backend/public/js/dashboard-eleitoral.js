@@ -124,10 +124,13 @@ function preencherUltimosEleitores(eleitores) {
         </td>
 
         <td>
-          ${formatarData(
-      eleitor.criado_em
+  ${escaparHtml(
+      eleitor.lideranca_nome ||
+      eleitor.nome_lideranca ||
+      eleitor.lideranca ||
+      "Sem liderança"
     )}
-        </td>
+  </td>
       </tr>
     `).join("");
 }

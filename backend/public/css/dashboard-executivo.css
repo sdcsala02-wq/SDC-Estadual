@@ -1665,3 +1665,71 @@
   font-size: 7px;
   text-align: center;
 }
+
+/* ======================================================
+   TABELA - ÚLTIMOS ELEITORES
+====================================================== */
+
+.painel-tabela table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+.painel-tabela th,
+.painel-tabela td {
+  padding: 14px 16px;
+  text-align: left;
+  vertical-align: middle;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.painel-tabela th {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.painel-tabela td {
+  font-size: 13px;
+}
+
+/* Nome */
+.painel-tabela th:nth-child(1),
+.painel-tabela td:nth-child(1) {
+  width: 25%;
+}
+
+/* Telefone */
+.painel-tabela th:nth-child(2),
+.painel-tabela td:nth-child(2) {
+  width: 17%;
+}
+
+/* Bairro */
+.painel-tabela th:nth-child(3),
+.painel-tabela td:nth-child(3) {
+  width: 20%;
+}
+
+/* Cidade */
+.painel-tabela th:nth-child(4),
+.painel-tabela td:nth-child(4) {
+  width: 18%;
+}
+
+/* Liderança */
+.painel-tabela th:nth-child(5),
+.painel-tabela td:nth-child(5) {
+  width: 20%;
+}
+
+.painel-tabela tbody tr {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.painel-tabela tbody tr:last-child {
+  border-bottom: none;
+}
