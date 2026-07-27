@@ -2670,32 +2670,33 @@ router.put("/:id", async (req, res) => {
 
     const resultado = await pool.query(
       `
-        UPDATE eleitores
-        SET
-          status = $1,
-          nome = $2,
-          apelido = $3,
-          telefone = $4,
-          cidade = $5,
-          cep = $6,
-          endereco = $7,
-          bairro = $8,
-          numero = $9,
-          complemento = $10,
-          data_nascimento = $11,
-          nome_mae = $12,
-          titulo_eleitoral = $13,
-          zona = $14,
-          secao = $15,
-          local_votacao = $16,
-          observacao = $17,
-          atualizado_em = timezone('America/Sao_Paulo', NOW())
+    UPDATE eleitores
+    SET
+      status = $1,
+      nome = $2,
+      apelido = $3,
+      telefone = $4,
+      cidade = $5,
+      cep = $6,
+      endereco = $7,
+      bairro = $8,
+      numero = $9,
+      complemento = $10,
+      data_nascimento = $11,
+      nome_mae = $12,
+      titulo_eleitoral = $13,
+      zona = $14,
+      secao = $15,
+      local_votacao = $16,
+      observacao = $17,
+      lideranca_id = $18,
+      atualizado_em = timezone('America/Sao_Paulo', NOW())
 
-        WHERE id = $18
-          AND candidato_id = $19
+    WHERE id = $19
+      AND candidato_id = $20
 
-        RETURNING *
-      `,
+    RETURNING *
+  `,
       [
         dados.status,
         dados.nome,
@@ -2714,6 +2715,7 @@ router.put("/:id", async (req, res) => {
         dados.secao,
         dados.local_votacao,
         dados.observacao,
+        dados.lideranca_id,
         id,
         candidatoId
       ]

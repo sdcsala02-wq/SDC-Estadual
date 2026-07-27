@@ -1385,24 +1385,30 @@ app.get(
       const ultimosResultado =
         await db.query(
           `
-            SELECT
-              id,
-              nome,
-              telefone,
-              bairro,
-              cidade,
-              criado_em
+      SELECT
+        e.id,
+        e.nome,
+        e.telefone,
+        e.bairro,
+        e.cidade,
+        e.criado_em,
+        l.id AS lideranca_id,
+        l.nome AS lideranca_nome
 
-            FROM eleitores
+      FROM eleitores e
 
-            WHERE candidato_id = $1
+      LEFT JOIN liderancas l
+        ON l.id = e.lideranca_id
+        AND COALESCE(l.ativo, true) = true
 
-            ORDER BY
-              criado_em DESC NULLS LAST,
-              id DESC
+      WHERE e.candidato_id = $1
 
-            LIMIT 10
-          `,
+      ORDER BY
+        e.criado_em DESC NULLS LAST,
+        e.id DESC
+
+      LIMIT 10
+    `,
           [candidatoId]
         );
 

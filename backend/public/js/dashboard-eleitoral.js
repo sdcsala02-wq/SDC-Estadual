@@ -82,7 +82,7 @@ function atualizarTexto(id, valor) {
     Number(valor) || 0;
 }
 
-function preencherUltimosEleitores(eleitores) {
+  function preencherUltimosEleitores(eleitores) {
   const tbody =
     document.getElementById(
       "listaEleitores"
