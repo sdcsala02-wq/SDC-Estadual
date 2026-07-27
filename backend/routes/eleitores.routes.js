@@ -207,6 +207,7 @@ const SELECT_ELEITOR = `
   SELECT
     id,
     candidato_id,
+    lideranca_id,
     status,
     nome,
     apelido,
