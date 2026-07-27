@@ -2508,7 +2508,7 @@ router.post("/", async (req, res) => {
     console.log(">>> CADASTRO ELEITOR - VERSÃO NOVA <<<");
 
     const diagnosticoBanco = await pool.query(`
-  SELECT
+  SELECT  
     current_database() AS banco,
     current_schema() AS schema,
     inet_server_addr() AS servidor,
@@ -2535,6 +2535,16 @@ router.post("/", async (req, res) => {
       ">>> COLUNA LIDERANCA NO BANCO DO BACKEND:",
       diagnosticoColuna.rows
     );
+
+    const diagnosticoSearchPath = await pool.query(`
+  SHOW search_path;
+`);
+
+    console.log(
+      ">>> SEARCH PATH DO BACKEND:",
+      diagnosticoSearchPath.rows
+    );
+
 
     const resultado = await pool.query(
       `
