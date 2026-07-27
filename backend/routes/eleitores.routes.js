@@ -2505,6 +2505,8 @@ router.post("/", async (req, res) => {
       }
     }
 
+    console.log(">>> CADASTRO ELEITOR - VERSÃO NOVA <<<");
+
     const resultado = await pool.query(
       `
         INSERT INTO eleitores (
