@@ -125,21 +125,23 @@ function selecionarCidadeNoMapa(cidade, camada) {
   camadaSelecionada = camada;
   cidadeSelecionada = cidade;
 
-  camadaSelecionada.setStyle({
-    weight: 4,
-    color: "#facc15",
-    fillOpacity: 0.9
-  });
+  if (camadaSelecionada) {
+    camadaSelecionada.setStyle({
+      weight: 4,
+      color: "#facc15",
+      fillOpacity: 0.9
+    });
 
-  camadaSelecionada.bringToFront();
+    camadaSelecionada.bringToFront();
 
-  mapa.fitBounds(
-    camadaSelecionada.getBounds(),
-    {
-      padding: [30, 30],
-      maxZoom: 12
-    }
-  );
+    mapa.fitBounds(
+      camadaSelecionada.getBounds(),
+      {
+        padding: [30, 30],
+        maxZoom: 12
+      }
+    );
+  }
 
   atualizarTexto(
     "bairroSelecionado",
@@ -151,57 +153,25 @@ function selecionarCidadeNoMapa(cidade, camada) {
     "Cidade selecionada"
   );
 
-  const eleitoresCidade = eleitoresMapa.filter(eleitor =>
-    normalizarTexto(eleitor.cidade) ===
-    normalizarTexto(cidade)
-  );
+  const eleitoresCidade = eleitoresMapa.filter(eleitor => {
+    return (
+      normalizarTexto(eleitor.cidade) ===
+      normalizarTexto(cidade)
+    );
+  });
 
-  const bairrosDaCidade = gerarResumoBairros(eleitoresCidade);
-
-  function selecionarCamadaCidadePeloNome(cidade) {
-    if (!camadaBairros) {
-      return;
-    }
-
-    camadaBairros.eachLayer(camada => {
-      const nome = obterNomeMunicipioFeature(
-        camada.feature
-      );
-
-      if (
-        normalizarTexto(nome) ===
-        normalizarTexto(cidade)
-      ) {
-        selecionarCidadeNoMapa(nome, camada);
-      }
-    });
-  } s
-
-  function selecionarCamadaCidadePeloNome(cidade) {
-    if (!camadaBairros) {
-      return;
-    }
-
-    camadaBairros.eachLayer(camada => {
-      const nome = obterNomeMunicipioFeature(
-        camada.feature
-      );
-
-      if (
-        normalizarTexto(nome) ===
-        normalizarTexto(cidade)
-      ) {
-        selecionarCidadeNoMapa(nome, camada);
-      }
-    });
-  }
-
+  const bairrosDaCidade =
+    gerarResumoBairros(eleitoresCidade);
 
   montarRankingBairros(bairrosDaCidade);
 
-  montarTabelaEleitoresBairro(eleitoresCidade);
+  montarTabelaEleitoresBairro(
+    eleitoresCidade
+  );
 
-  montarResumoStatusBairro(eleitoresCidade);
+  montarResumoStatusBairro(
+    eleitoresCidade
+  );
 
   atualizarTexto(
     "tituloEleitoresBairro",
@@ -209,45 +179,72 @@ function selecionarCidadeNoMapa(cidade, camada) {
   );
 }
 
+
 function montarRankingCidades(cidades) {
-  const container = document.getElementById("rankingBairros");
+  const container =
+    document.getElementById("rankingBairros");
 
   if (!container) {
     return;
   }
 
-  if (!cidades.length) {
-    container.innerHTML =
-      "<p>Nenhuma cidade com eleitores cadastrados.</p>";
+  const listaCidades =
+    Array.isArray(cidades)
+      ? cidades
+      : [];
+
+  if (!listaCidades.length) {
+    container.innerHTML = `
+      <p>
+        Nenhuma cidade com eleitores cadastrados.
+      </p>
+    `;
+
     return;
   }
 
   const maior = Math.max(
-    ...cidades.map(item => Number(item.total || 0)),
+    ...listaCidades.map(item =>
+      Number(item.total || 0)
+    ),
     1
   );
 
-  container.innerHTML = cidades.map(item => {
-    const total = Number(item.total || 0);
-    const largura = (total / maior) * 100;
+  container.innerHTML =
+    listaCidades
+      .map(item => {
+        const cidade =
+          String(item.cidade || "").trim();
 
-    return `
-      <div
-        class="ranking-item"
-        data-cidade="${escaparHtml(item.cidade)}"
-      >
-        <span>
-          ${escaparHtml(formatarNome(item.cidade))}
-        </span>
+        const total =
+          Number(item.total || 0);
 
-        <div class="barra-ranking">
-          <b style="width:${largura}%"></b>
-        </div>
+        const largura =
+          (total / maior) * 100;
 
-        <strong>${total}</strong>
-      </div>
-    `;
-  }).join("");
+        return `
+          <div
+            class="ranking-item"
+            data-cidade="${escaparHtml(cidade)}"
+            title="Clique para visualizar os eleitores"
+          >
+            <span>
+              ${escaparHtml(
+          formatarNome(cidade)
+        )}
+            </span>
+
+            <div class="barra-ranking">
+              <b style="width:${largura}%"></b>
+            </div>
+
+            <strong>
+              ${total}
+            </strong>
+          </div>
+        `;
+      })
+      .join("");
 
   container
     .querySelectorAll(".ranking-item")
@@ -1031,7 +1028,7 @@ function montarTabelaEleitoresBairro(
 
             <td>
               ${escaparHtml(
-          eleitor.bairro || "-"
+          eleitor.cidade || "-"
         )}
             </td>
 
