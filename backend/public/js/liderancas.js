@@ -2,10 +2,14 @@ const API_LIDERANCAS_XAVIER = "/api/liderancas";
 const API_DEMANDAS_LIDERANCAS_XAVIER = "/api/demandas";
 
 let liderancaEditandoId = null;
+let liderancasCarregadas = [];
 
 document.addEventListener("DOMContentLoaded", () => {
-  carregarLiderancas();
   configurarFormularioLideranca();
+  configurarFiltrosLiderancas();
+  configurarRankingLiderancas();
+
+  carregarLiderancas();
 });
 
 function garantirArray(dados) {
@@ -50,14 +54,41 @@ function configurarFormularioLideranca() {
     event.preventDefault();
 
     const dados = {
-      bairro: document.getElementById("bairro").value.trim(),
-      nome: document.getElementById("nome").value.trim(),
-      telefone: document.getElementById("telefone").value.trim(),
-      observacao: document.getElementById("observacao").value.trim()
+      cidade:
+        document.getElementById("cidade")
+          ?.value
+          .trim() || "",
+
+      bairro:
+        document.getElementById("bairro")
+          ?.value
+          .trim() || "",
+
+      nome:
+        document.getElementById("nome")
+          ?.value
+          .trim() || "",
+
+      telefone:
+        document.getElementById("telefone")
+          ?.value
+          .trim() || "",
+
+      status:
+        document.getElementById("status")
+          ?.value || "ATIVO",
+
+      observacao:
+        document.getElementById("observacao")
+          ?.value
+          .trim() || ""
     };
 
-    if (!dados.bairro || !dados.nome) {
-      alert("Informe o bairro e o nome da liderança.");
+    if (!dados.cidade || !dados.bairro || !dados.nome) {
+      alert(
+        "Informe a cidade, o bairro e o nome da liderança."
+      );
+
       return;
     }
 
@@ -96,6 +127,7 @@ async function carregarLiderancas() {
   try {
     const dadosLiderancas = await buscarJsonLiderancas(API_LIDERANCAS_XAVIER);
     const liderancas = garantirArray(dadosLiderancas);
+    liderancasCarregadas = liderancas;
 
     let demandas = [];
 
@@ -107,8 +139,11 @@ async function carregarLiderancas() {
     }
 
     atualizarCards(liderancas, demandas);
-    montarTabelaLiderancas(liderancas);
+    preencherFiltrosLiderancas(liderancas);
+    aplicarFiltrosLiderancas();
     montarRankingLiderancas(liderancas);
+
+
 
   } catch (error) {
     console.error("Erro ao carregar lideranças:", error);
@@ -123,6 +158,12 @@ function atualizarCards(liderancas, demandas) {
   const listaLiderancas = garantirArray(liderancas);
   const listaDemandas = garantirArray(demandas);
 
+  const cidades = new Set(
+    listaLiderancas
+      .map(item => normalizar(item.cidade))
+      .filter(Boolean)
+  );
+
   const bairros = new Set(
     listaLiderancas
       .map(item => normalizar(item.bairro))
@@ -133,66 +174,240 @@ function atualizarCards(liderancas, demandas) {
     bairros.has(normalizar(demanda.bairro))
   );
 
-  document.getElementById("totalLiderancas").innerText = listaLiderancas.length;
-  document.getElementById("totalBairrosLiderancas").innerText = bairros.size;
-  document.getElementById("totalDemandasLiderancas").innerText = demandasRelacionadas.length;
+  const totalLiderancas =
+    document.getElementById("totalLiderancas");
+
+  const totalCidades =
+    document.getElementById("totalCidadesLiderancas");
+
+  const totalBairros =
+    document.getElementById("totalBairrosLiderancas");
+
+  const totalDemandas =
+    document.getElementById("totalDemandasLiderancas");
+
+  if (totalLiderancas) {
+    totalLiderancas.innerText =
+      listaLiderancas.length;
+  }
+
+  if (totalCidades) {
+    totalCidades.innerText =
+      cidades.size;
+  }
+
+  if (totalBairros) {
+    totalBairros.innerText =
+      bairros.size;
+  }
+
+  if (totalDemandas) {
+    totalDemandas.innerText =
+      demandasRelacionadas.length;
+  }
 }
 
 function montarTabelaLiderancas(liderancas) {
-  const tbody = document.getElementById("listaLiderancas");
-  const lista = garantirArray(liderancas);
+  const tbody =
+    document.getElementById("listaLiderancas");
+
+  const lista =
+    garantirArray(liderancas);
 
   if (!tbody) return;
 
   if (!lista.length) {
     tbody.innerHTML = `
       <tr>
-        <td colspan="5">Nenhuma liderança cadastrada.</td>
+        <td colspan="7">
+          Nenhuma liderança cadastrada.
+        </td>
       </tr>
     `;
+
     return;
   }
 
-  tbody.innerHTML = lista.map(item => `
-    <tr>
-      <td>${item.bairro || "-"}</td>
-      <td>${item.nome || "-"}</td>
-      <td>${item.telefone || "-"}</td>
-      <td>${item.observacao || "-"}</td>
-      <td>
-        <button class="btn-editar" onclick='editarLideranca(${JSON.stringify(item)})'>
-          Editar
-        </button>
+  tbody.innerHTML = lista.map(item => {
+    const status =
+      String(item.status || "ATIVO")
+        .toUpperCase();
 
-        <button class="btn-excluir" onclick="excluirLideranca(${item.id})">
-          Excluir
-        </button>
-      </td>
-    </tr>
-  `).join("");
+    const classeStatus =
+      status === "INATIVO"
+        ? "inativo"
+        : "ativo";
+
+    return `
+  <tr>
+
+    <td>
+      <strong class="nome-lideranca-tabela">
+        ${escaparHtml(item.nome || "-")}
+      </strong>
+    </td>
+
+    <td>
+      ${escaparHtml(item.telefone || "-")}
+    </td>
+
+    <td>
+      ${escaparHtml(item.cidade || "-")}
+    </td>
+
+    <td>
+      ${escaparHtml(item.bairro || "-")}
+    </td>
+
+    <td>
+      <span class="status-lideranca ${classeStatus}">
+        ${escaparHtml(status)}
+      </span>
+    </td>
+
+    <td>
+      ${escaparHtml(item.observacao || "-")}
+    </td>
+
+    <td>
+      <div class="acoes-lideranca">
+
+        <button
+  type="button"
+  class="btn-acao-lideranca btn-editar-lideranca"
+  onclick="editarLiderancaPorId(${Number(item.id)})"
+  title="Editar liderança">
+
+  <span class="icone-acao">✏️</span>
+  <span>Editar</span>
+
+</button>
+
+        <button
+  type="button"
+  class="btn-acao-lideranca btn-excluir-lideranca"
+  onclick="excluirLideranca(${Number(item.id)})"
+  title="Excluir liderança">
+
+  <span class="icone-acao">🗑️</span>
+  <span>Excluir</span>
+
+</button>
+
+      </div>
+    </td>
+
+  </tr>
+`;
+  }).join("");
+}
+
+function editarLiderancaPorId(id) {
+  const item = liderancasCarregadas.find(
+    lideranca =>
+      Number(lideranca.id) === Number(id)
+  );
+
+  if (!item) {
+    alert("Não foi possível localizar essa liderança.");
+    return;
+  }
+
+  editarLideranca(item);
 }
 
 function editarLideranca(item) {
   liderancaEditandoId = item.id;
 
-  document.getElementById("bairro").value = item.bairro || "";
-  document.getElementById("nome").value = item.nome || "";
-  document.getElementById("telefone").value = item.telefone || "";
-  document.getElementById("observacao").value = item.observacao || "";
+  const campoCidade =
+    document.getElementById("cidade");
 
-  const botao = document.querySelector("#formLideranca button[type='submit']");
+  const campoBairro =
+    document.getElementById("bairro");
 
-  if (botao) {
-    botao.innerText = "Atualizar Liderança";
+  const campoNome =
+    document.getElementById("nome");
+
+  const campoTelefone =
+    document.getElementById("telefone");
+
+  const campoStatus =
+    document.getElementById("status");
+
+  const campoObservacao =
+    document.getElementById("observacao");
+
+  if (campoCidade) {
+    campoCidade.value =
+      item.cidade || "";
   }
 
-  criarBotaoCancelar();
+  if (campoBairro) {
+    campoBairro.value =
+      item.bairro || "";
+  }
 
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
+  if (campoNome) {
+    campoNome.value =
+      item.nome || "";
+  }
+
+  if (campoTelefone) {
+    campoTelefone.value =
+      item.telefone || "";
+  }
+
+  if (campoStatus) {
+    campoStatus.value =
+      String(item.status || "ATIVO")
+        .toUpperCase();
+  }
+
+  if (campoObservacao) {
+    campoObservacao.value =
+      item.observacao || "";
+  }
+
+  const botaoSalvar =
+    document.getElementById(
+      "btnSalvarLideranca"
+    );
+
+  if (botaoSalvar) {
+    botaoSalvar.innerText =
+      "Atualizar Liderança";
+  }
+
+  const botaoCancelar =
+    document.getElementById(
+      "btnCancelarEdicao"
+    );
+
+  if (botaoCancelar) {
+    botaoCancelar.style.display =
+      "inline-flex";
+
+    botaoCancelar.onclick =
+      limparFormulario;
+  }
+
+  const formulario =
+    document.getElementById(
+      "formLideranca"
+    );
+
+  if (formulario) {
+    formulario.scrollIntoView({
+      behavior: "smooth",
+      block: "center"
+    });
+  }
+
+  setTimeout(() => {
+    campoCidade?.focus();
+  }, 400);
 }
+
 
 function criarBotaoCancelar() {
   if (document.getElementById("btnCancelarEdicao")) return;
@@ -214,57 +429,264 @@ function criarBotaoCancelar() {
 function limparFormulario() {
   liderancaEditandoId = null;
 
-  const form = document.getElementById("formLideranca");
+  const form =
+    document.getElementById(
+      "formLideranca"
+    );
 
-  if (form) form.reset();
-
-  const botao = document.querySelector("#formLideranca button[type='submit']");
-
-  if (botao) {
-    botao.innerText = "Salvar Liderança";
+  if (form) {
+    form.reset();
   }
 
-  const botaoCancelar = document.getElementById("btnCancelarEdicao");
+  const botaoSalvar =
+    document.getElementById(
+      "btnSalvarLideranca"
+    );
+
+  if (botaoSalvar) {
+    botaoSalvar.innerText =
+      "Salvar Liderança";
+  }
+
+  const botaoCancelar =
+    document.getElementById(
+      "btnCancelarEdicao"
+    );
 
   if (botaoCancelar) {
-    botaoCancelar.remove();
+    botaoCancelar.style.display =
+      "none";
   }
 }
 
 function montarRankingLiderancas(liderancas) {
-  const container = document.getElementById("rankingLiderancas");
-  const listaLiderancas = garantirArray(liderancas);
+  const container =
+    document.getElementById("rankingLiderancas");
+
+  const seletor =
+    document.getElementById("tipoRankingLiderancas");
+
+  const lista =
+    garantirArray(liderancas);
 
   if (!container) return;
 
-  if (!listaLiderancas.length) {
-    container.innerHTML = "<p>Nenhuma liderança cadastrada.</p>";
+  if (!lista.length) {
+    container.innerHTML =
+      "<p>Nenhuma liderança cadastrada.</p>";
+
     return;
   }
 
+  const tipo =
+    seletor?.value === "bairro"
+      ? "bairro"
+      : "cidade";
+
   const resumo = {};
 
-  listaLiderancas.forEach(item => {
-    const bairro = item.bairro || "Não informado";
-    resumo[bairro] = (resumo[bairro] || 0) + 1;
+  lista.forEach(item => {
+    const valor = String(item[tipo] || "").trim();
+
+    const nome = valor || "Não informado";
+
+    resumo[nome] =
+      (resumo[nome] || 0) + 1;
   });
 
-  const lista = Object.entries(resumo).sort((a, b) => b[1] - a[1]);
-  const maior = Math.max(...lista.map(item => item[1]));
+  const ranking = Object.entries(resumo)
+    .sort((a, b) => {
+      if (b[1] !== a[1]) {
+        return b[1] - a[1];
+      }
 
-  container.innerHTML = lista.map(([bairro, total]) => {
-    const largura = maior ? (total / maior) * 100 : 0;
+      return a[0].localeCompare(
+        b[0],
+        "pt-BR"
+      );
+    });
 
-    return `
-      <div class="ranking-item">
-        <span>${bairro}</span>
-        <div class="barra-ranking">
-          <b style="width:${largura}%"></b>
+  const maior =
+    Math.max(...ranking.map(item => item[1]));
+
+  container.innerHTML = ranking
+    .map(([nome, total]) => {
+      const largura =
+        maior > 0
+          ? (total / maior) * 100
+          : 0;
+
+      return `
+        <div class="ranking-item">
+
+          <span>
+            ${escaparHtml(nome)}
+          </span>
+
+          <div class="barra-ranking">
+            <b style="width: ${largura}%"></b>
+          </div>
+
+          <strong>
+            ${total}
+          </strong>
+
         </div>
-        <strong>${total}</strong>
-      </div>
-    `;
-  }).join("");
+      `;
+    })
+    .join("");
+}
+
+function configurarRankingLiderancas() {
+  const seletor =
+    document.getElementById("tipoRankingLiderancas");
+
+  seletor?.addEventListener("change", () => {
+    montarRankingLiderancas(
+      liderancasCarregadas
+    );
+  });
+}
+
+function preencherFiltrosLiderancas(liderancas) {
+  const filtroCidade =
+    document.getElementById("filtroCidadeLideranca");
+
+  const filtroBairro =
+    document.getElementById("filtroBairroLideranca");
+
+  if (!filtroCidade || !filtroBairro) return;
+
+  const cidadeSelecionada = filtroCidade.value;
+  const bairroSelecionado = filtroBairro.value;
+
+  const cidades = [
+    ...new Set(
+      garantirArray(liderancas)
+        .map(item => String(item.cidade || "").trim())
+        .filter(Boolean)
+    )
+  ].sort((a, b) =>
+    a.localeCompare(b, "pt-BR")
+  );
+
+  const bairros = [
+    ...new Set(
+      garantirArray(liderancas)
+        .map(item => String(item.bairro || "").trim())
+        .filter(Boolean)
+    )
+  ].sort((a, b) =>
+    a.localeCompare(b, "pt-BR")
+  );
+
+  filtroCidade.innerHTML = `
+    <option value="">
+      Todas as cidades
+    </option>
+
+    ${cidades.map(cidade => `
+      <option value="${escaparHtml(cidade)}">
+        ${escaparHtml(cidade)}
+      </option>
+    `).join("")}
+  `;
+
+  filtroBairro.innerHTML = `
+    <option value="">
+      Todos os bairros
+    </option>
+
+    ${bairros.map(bairro => `
+      <option value="${escaparHtml(bairro)}">
+        ${escaparHtml(bairro)}
+      </option>
+    `).join("")}
+  `;
+
+  filtroCidade.value = cidadeSelecionada;
+  filtroBairro.value = bairroSelecionado;
+}
+
+function configurarFiltrosLiderancas() {
+  const filtroCidade =
+    document.getElementById("filtroCidadeLideranca");
+
+  const filtroBairro =
+    document.getElementById("filtroBairroLideranca");
+
+  const campoBusca =
+    document.getElementById("buscaLideranca");
+
+  const botaoLimpar =
+    document.getElementById("btnLimparFiltrosLideranca");
+
+  filtroCidade?.addEventListener(
+    "change",
+    aplicarFiltrosLiderancas
+  );
+
+  filtroBairro?.addEventListener(
+    "change",
+    aplicarFiltrosLiderancas
+  );
+
+  campoBusca?.addEventListener(
+    "input",
+    aplicarFiltrosLiderancas
+  );
+
+  botaoLimpar?.addEventListener("click", () => {
+    if (filtroCidade) filtroCidade.value = "";
+    if (filtroBairro) filtroBairro.value = "";
+    if (campoBusca) campoBusca.value = "";
+
+    aplicarFiltrosLiderancas();
+  });
+}
+function aplicarFiltrosLiderancas() {
+  const cidadeSelecionada = normalizar(
+    document.getElementById("filtroCidadeLideranca")?.value
+  );
+
+  const bairroSelecionado = normalizar(
+    document.getElementById("filtroBairroLideranca")?.value
+  );
+
+  const busca = normalizar(
+    document.getElementById("buscaLideranca")?.value
+  );
+
+  const listaFiltrada = liderancasCarregadas.filter(item => {
+    const correspondeCidade =
+      !cidadeSelecionada ||
+      normalizar(item.cidade) === cidadeSelecionada;
+
+    const correspondeBairro =
+      !bairroSelecionado ||
+      normalizar(item.bairro) === bairroSelecionado;
+
+    const textoCompleto = normalizar([
+      item.nome,
+      item.telefone,
+      item.cidade,
+      item.bairro,
+      item.observacao,
+      item.status
+    ].join(" "));
+
+    const correspondeBusca =
+      !busca ||
+      textoCompleto.includes(busca);
+
+    return (
+      correspondeCidade &&
+      correspondeBairro &&
+      correspondeBusca
+    );
+  });
+
+  montarTabelaLiderancas(listaFiltrada);
 }
 
 async function excluirLideranca(id) {
@@ -289,4 +711,13 @@ function normalizar(texto) {
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .trim();
+}
+
+function escaparHtml(valor) {
+  return String(valor ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }

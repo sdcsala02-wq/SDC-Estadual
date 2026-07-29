@@ -1,5 +1,5 @@
 const API_URL_ELEITORES = "/api/eleitores";
-const API_URL_BAIRROS = "/data/bairros-praia-grande.geojson";
+const API_URL_MUNICIPIOS = "/data/municipios-sao-paulo.geojson";
 
 let mapa = null;
 let camadaBairros = null;
@@ -8,6 +8,10 @@ let camadaSelecionada = null;
 let eleitoresMapa = [];
 let resumoBairros = [];
 let totaisPorBairro = new Map();
+
+let resumoCidades = [];
+let totaisPorCidade = new Map();
+let cidadeSelecionada = null;
 
 document.addEventListener(
   "DOMContentLoaded",
@@ -33,7 +37,7 @@ async function carregarMapaEleitoral() {
         cache: "no-store"
       }),
 
-      fetch(API_URL_BAIRROS, {
+      fetch(API_URL_MUNICIPIOS, {
         cache: "no-store"
       })
     ]);
@@ -81,6 +85,10 @@ async function carregarMapaEleitoral() {
         eleitoresMapa
       );
 
+    resumoCidades = gerarResumoCidades(eleitoresMapa);
+    totaisPorCidade = criarMapaTotaisCidade(resumoCidades);
+
+
     totaisPorBairro =
       criarMapaTotais(
         resumoBairros
@@ -92,13 +100,9 @@ async function carregarMapaEleitoral() {
       eleitoresMapa
     );
 
-    montarMapaBairros(
-      geoJson
-    );
+    montarMapaMunicipios(geoJson);
 
-    montarRankingBairros(
-      resumoBairros
-    );
+    montarRankingCidades(resumoCidades);
 
   } catch (erro) {
     console.error(
@@ -113,21 +117,262 @@ async function carregarMapaEleitoral() {
   }
 }
 
-function inicializarMapa() {
-  if (mapa) {
+function selecionarCidadeNoMapa(cidade, camada) {
+  if (camadaSelecionada && camadaBairros) {
+    camadaBairros.resetStyle(camadaSelecionada);
+  }
+
+  camadaSelecionada = camada;
+  cidadeSelecionada = cidade;
+
+  camadaSelecionada.setStyle({
+    weight: 4,
+    color: "#facc15",
+    fillOpacity: 0.9
+  });
+
+  camadaSelecionada.bringToFront();
+
+  mapa.fitBounds(
+    camadaSelecionada.getBounds(),
+    {
+      padding: [30, 30],
+      maxZoom: 12
+    }
+  );
+
+  atualizarTexto(
+    "bairroSelecionado",
+    formatarNome(cidade)
+  );
+
+  atualizarTexto(
+    "infoBairroSelecionado",
+    "Cidade selecionada"
+  );
+
+  const eleitoresCidade = eleitoresMapa.filter(eleitor =>
+    normalizarTexto(eleitor.cidade) ===
+    normalizarTexto(cidade)
+  );
+
+  const bairrosDaCidade = gerarResumoBairros(eleitoresCidade);
+
+  function selecionarCamadaCidadePeloNome(cidade) {
+    if (!camadaBairros) {
+      return;
+    }
+
+    camadaBairros.eachLayer(camada => {
+      const nome = obterNomeMunicipioFeature(
+        camada.feature
+      );
+
+      if (
+        normalizarTexto(nome) ===
+        normalizarTexto(cidade)
+      ) {
+        selecionarCidadeNoMapa(nome, camada);
+      }
+    });
+  } s
+
+  function selecionarCamadaCidadePeloNome(cidade) {
+    if (!camadaBairros) {
+      return;
+    }
+
+    camadaBairros.eachLayer(camada => {
+      const nome = obterNomeMunicipioFeature(
+        camada.feature
+      );
+
+      if (
+        normalizarTexto(nome) ===
+        normalizarTexto(cidade)
+      ) {
+        selecionarCidadeNoMapa(nome, camada);
+      }
+    });
+  }
+
+
+  montarRankingBairros(bairrosDaCidade);
+
+  montarTabelaEleitoresBairro(eleitoresCidade);
+
+  montarResumoStatusBairro(eleitoresCidade);
+
+  atualizarTexto(
+    "tituloEleitoresBairro",
+    `Eleitores de ${formatarNome(cidade)}`
+  );
+}
+
+function montarRankingCidades(cidades) {
+  const container = document.getElementById("rankingBairros");
+
+  if (!container) {
     return;
   }
+
+  if (!cidades.length) {
+    container.innerHTML =
+      "<p>Nenhuma cidade com eleitores cadastrados.</p>";
+    return;
+  }
+
+  const maior = Math.max(
+    ...cidades.map(item => Number(item.total || 0)),
+    1
+  );
+
+  container.innerHTML = cidades.map(item => {
+    const total = Number(item.total || 0);
+    const largura = (total / maior) * 100;
+
+    return `
+      <div
+        class="ranking-item"
+        data-cidade="${escaparHtml(item.cidade)}"
+      >
+        <span>
+          ${escaparHtml(formatarNome(item.cidade))}
+        </span>
+
+        <div class="barra-ranking">
+          <b style="width:${largura}%"></b>
+        </div>
+
+        <strong>${total}</strong>
+      </div>
+    `;
+  }).join("");
+
+  container
+    .querySelectorAll(".ranking-item")
+    .forEach(item => {
+      item.addEventListener("click", () => {
+        selecionarCamadaCidadePeloNome(
+          item.dataset.cidade
+        );
+      });
+    });
+}
+
+function selecionarCamadaCidadePeloNome(cidade) {
+  if (!camadaBairros) {
+    return;
+  }
+
+  camadaBairros.eachLayer(camada => {
+    const nome = obterNomeMunicipioFeature(
+      camada.feature
+    );
+
+    if (
+      normalizarTexto(nome) ===
+      normalizarTexto(cidade)
+    ) {
+      selecionarCidadeNoMapa(nome, camada);
+    }
+  });
+}
+
+
+
+function gerarResumoCidades(eleitores) {
+  const contagem = new Map();
+
+  eleitores.forEach(eleitor => {
+    const cidadeOriginal = String(eleitor.cidade || "").trim();
+
+    if (!cidadeOriginal) {
+      return;
+    }
+
+    const chave = normalizarTexto(cidadeOriginal);
+
+    if (!contagem.has(chave)) {
+      contagem.set(chave, {
+        cidade: cidadeOriginal,
+        total: 0
+      });
+    }
+
+    contagem.get(chave).total++;
+  });
+
+  return Array.from(contagem.values()).sort(
+    (a, b) => Number(b.total) - Number(a.total)
+  );
+}
+
+function criarMapaTotaisCidade(cidades) {
+  const totais = new Map();
+
+  cidades.forEach(item => {
+    totais.set(
+      normalizarTexto(item.cidade),
+      Number(item.total || 0)
+    );
+  });
+
+  return totais;
+}
+
+function obterTotalCidade(cidade) {
+  return totaisPorCidade.get(
+    normalizarTexto(cidade)
+  ) || 0;
+}
+
+
+function obterNomeMunicipioFeature(feature) {
+  const propriedades = feature?.properties || {};
+
+  const candidatos = [
+    "name",
+    "NAME",
+    "nome",
+    "NOME",
+    "NM_MUN",
+    "nm_mun",
+    "NM_MUNICIP",
+    "nm_municip",
+    "NM_MUNICIPIO",
+    "nome_municipio",
+    "description",
+    "DESCRIPTION"
+  ];
+
+  for (const campo of candidatos) {
+    const valor = propriedades[campo];
+
+    if (
+      valor !== undefined &&
+      valor !== null &&
+      String(valor).trim()
+    ) {
+      return String(valor).trim();
+    }
+  }
+
+  return "Município não identificado";
+}
+
+function inicializarMapa() {
 
   mapa = L.map(
     "mapaLeaflet",
     {
       zoomControl: true,
-      minZoom: 11,
+      minZoom: 9,
       maxZoom: 18
     }
   ).setView(
-    [-24.0277, -46.4778],
-    12
+    [-23.5505, -46.6333],
+    10
   );
 
   L.tileLayer(
@@ -144,39 +389,82 @@ function inicializarMapa() {
   }, 300);
 }
 
-function montarMapaBairros(geoJson) {
+function montarMapaMunicipios(geoJson) {
   if (camadaBairros) {
     mapa.removeLayer(camadaBairros);
   }
 
-  camadaBairros = L.geoJSON(
-    geoJson,
-    {
-      style: feature =>
-        obterEstiloBairro(feature),
+  camadaSelecionada = null;
 
-      onEachFeature: (
-        feature,
-        camada
-      ) => {
-        configurarBairro(
-          feature,
-          camada
-        );
-      }
+  camadaBairros = L.geoJSON(geoJson, {
+    style: feature => {
+      const cidade = obterNomeMunicipioFeature(feature);
+      const total = obterTotalCidade(cidade);
+
+      return {
+        color: total > 0 ? "#ffffff" : "#64748b",
+        weight: total > 0 ? 2.5 : 0.7,
+        opacity: 1,
+        fillColor: obterCorQuantidade(total),
+        fillOpacity: total > 0 ? 0.8 : 0.08
+      };
+    },
+
+    onEachFeature: (feature, camada) => {
+      const cidade = obterNomeMunicipioFeature(feature);
+      const total = obterTotalCidade(cidade);
+
+      camada.bindTooltip(`
+        <div style="text-align:center">
+          <strong>${escaparHtml(formatarNome(cidade))}</strong>
+          <br>
+          ${total} eleitor(es)
+        </div>
+      `, {
+        sticky: true,
+        direction: "top",
+        opacity: 0.95
+      });
+
+      camada.on({
+        mouseover: evento => {
+          const alvo = evento.target;
+
+          if (camadaSelecionada !== alvo) {
+            alvo.setStyle({
+              weight: 3,
+              color: "#facc15",
+              fillOpacity: total > 0 ? 0.95 : 0.25
+            });
+          }
+
+          alvo.bringToFront();
+        },
+
+        mouseout: evento => {
+          const alvo = evento.target;
+
+          if (camadaSelecionada !== alvo) {
+            camadaBairros.resetStyle(alvo);
+          }
+        },
+
+        click: evento => {
+          selecionarCidadeNoMapa(
+            cidade,
+            evento.target
+          );
+        }
+      });
     }
-  ).addTo(mapa);
+  }).addTo(mapa);
 
-  const limites =
-    camadaBairros.getBounds();
+  const limites = camadaBairros.getBounds();
 
   if (limites.isValid()) {
-    mapa.fitBounds(
-      limites,
-      {
-        padding: [12, 12]
-      }
-    );
+    mapa.fitBounds(limites, {
+      padding: [12, 12]
+    });
   }
 
   setTimeout(() => {
@@ -423,18 +711,22 @@ function obterNomeBairroFeature(feature) {
     feature?.properties || {};
 
   const candidatos = [
-    "BAIRRO",
+    "ds_nome",
+    "DS_NOME",
+    "nm_distrito",
+    "NM_DISTRITO",
+    "nome_distrito",
+    "NOME_DISTRITO",
+    "distrito",
+    "DISTRITO",
     "bairro",
-    "NOME",
+    "BAIRRO",
     "nome",
-    "NM_BAIRRO",
+    "NOME",
     "nm_bairro",
-    "DESCRICAO",
+    "NM_BAIRRO",
     "descricao",
-    "NOME_BAIRR",
-    "nome_bairr",
-    "BAIRRO_NOM",
-    "bairro_nom"
+    "DESCRICAO"
   ];
 
   for (
@@ -739,7 +1031,7 @@ function montarTabelaEleitoresBairro(
 
             <td>
               ${escaparHtml(
-          eleitor.cidade || "-"
+          eleitor.bairro || "-"
         )}
             </td>
 
@@ -918,45 +1210,40 @@ function bairrosEquivalentes(
 }
 
 function normalizarBairro(texto) {
-  const valor =
-    normalizarTexto(texto);
+  let valor = normalizarTexto(texto);
+
+  valor = valor
+    .replace(/^distrito de /, "")
+    .replace(/^distrito do /, "")
+    .replace(/^distrito da /, "");
 
   const equivalencias = {
-    "vila caicara": "caicara",
-    "balneario caicara": "caicara",
+    "se": "se",
+    "sé": "se",
 
-    "jardim gloria": "gloria",
-    "gloria": "gloria",
+    "bras": "bras",
+    "brás": "bras",
 
-    "vila mirim": "mirim",
-    "nova mirim": "nova mirim",
+    "jardim angela": "jardim angela",
+    "jd angela": "jardim angela",
 
-    "cidade das criancas":
-      "cidade da crianca",
+    "jardim sao luis": "jardim sao luis",
+    "jd sao luis": "jardim sao luis",
 
-    "cidade da crianca":
-      "cidade da crianca",
+    "sao mateus": "sao mateus",
+    "s mateus": "sao mateus",
 
-    "sitio do campo":
-      "sitio do campo",
+    "sao miguel": "sao miguel",
+    "sao miguel paulista": "sao miguel",
 
-    "sitio do campo":
-      "sitio do campo",
+    "cidade lider": "cidade lider",
+    "cidade líder": "cidade lider",
 
-    "balneario florida":
-      "florida",
-
-    "balneario esmeralda":
-      "esmeralda",
-
-    "canto do forte":
-      "canto do forte"
+    "vila sonia": "vila sonia",
+    "vila sônia": "vila sonia"
   };
 
-  return (
-    equivalencias[valor] ||
-    valor
-  );
+  return equivalencias[valor] || valor;
 }
 
 function ehBairroNaoCadastrado(

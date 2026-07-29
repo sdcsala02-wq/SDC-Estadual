@@ -7,6 +7,7 @@ async function garantirTabelaLiderancas() {
   await pool.query(`
     CREATE TABLE IF NOT EXISTS liderancas (
       id SERIAL PRIMARY KEY,
+      cidade VARCHAR(150),
       bairro VARCHAR(120) NOT NULL,
       nome VARCHAR(160) NOT NULL,
       telefone VARCHAR(40),
@@ -14,6 +15,11 @@ async function garantirTabelaLiderancas() {
       ativo BOOLEAN DEFAULT true,
       criado_em TIMESTAMP DEFAULT NOW()
     );
+  `);
+
+  await pool.query(`
+    ALTER TABLE liderancas
+    ADD COLUMN IF NOT EXISTS cidade VARCHAR(150);
   `);
 
   await pool.query(`
@@ -33,16 +39,33 @@ router.get("/", async (req, res) => {
     await garantirTabelaLiderancas();
 
     const resultado = await pool.query(`
-      SELECT *
+      SELECT
+        id,
+        cidade,
+        bairro,
+        nome,
+        telefone,
+        observacao,
+        ativo,
+        CASE
+          WHEN COALESCE(ativo, true) = true
+            THEN 'ATIVO'
+          ELSE 'INATIVO'
+        END AS status,
+        criado_em
       FROM liderancas
       WHERE COALESCE(ativo, true) = true
-      ORDER BY bairro, nome
+      ORDER BY
+        cidade NULLS LAST,
+        bairro,
+        nome
     `);
 
     res.json(resultado.rows);
 
   } catch (erro) {
     console.error("Erro ao listar lideranças:", erro);
+
     res.status(500).json({
       erro: "Erro ao listar lideranças",
       detalhe: erro.message
@@ -50,7 +73,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// RESUMO DAS LIDERANÇAS + DEMANDAS
+// RESUMO DAS LIDERANÇAS
 router.get("/resumo", async (req, res) => {
   try {
     await garantirTabelaLiderancas();
@@ -58,28 +81,41 @@ router.get("/resumo", async (req, res) => {
     const resultado = await pool.query(`
       SELECT
         l.id,
+        l.cidade,
         l.bairro,
         l.nome,
         l.telefone,
-        COUNT(d.id)::int AS total_demandas,
-        COUNT(d.id) FILTER (
-          WHERE UPPER(COALESCE(d.status,'')) NOT IN ('RESOLVIDA','FINALIZADA','CONCLUÍDO','CONCLUIDO')
-        )::int AS abertas,
-        COUNT(d.id) FILTER (
-          WHERE UPPER(COALESCE(d.status,'')) IN ('RESOLVIDA','FINALIZADA','CONCLUÍDO','CONCLUIDO')
-        )::int AS resolvidas
+        l.observacao,
+        l.ativo,
+
+        CASE
+          WHEN COALESCE(l.ativo, true) = true
+            THEN 'ATIVO'
+          ELSE 'INATIVO'
+        END AS status,
+
+        0::int AS total_demandas,
+        0::int AS abertas,
+        0::int AS resolvidas
+
       FROM liderancas l
-      LEFT JOIN demandas_gabinete d
-        ON UPPER(TRIM(l.bairro)) = UPPER(TRIM(d.bairro))
+
       WHERE COALESCE(l.ativo, true) = true
-      GROUP BY l.id, l.bairro, l.nome, l.telefone
-      ORDER BY l.bairro
+
+      ORDER BY
+        l.cidade NULLS LAST,
+        l.bairro,
+        l.nome
     `);
 
     res.json(resultado.rows);
 
   } catch (erro) {
-    console.error("Erro ao gerar resumo:", erro);
+    console.error(
+      "Erro ao gerar resumo das lideranças:",
+      erro
+    );
+
     res.status(500).json({
       erro: "Erro ao gerar resumo das lideranças",
       detalhe: erro.message
@@ -95,23 +131,40 @@ router.get("/bairro/:bairro", async (req, res) => {
     const { bairro } = req.params;
 
     const resultado = await pool.query(`
-      SELECT *
+      SELECT
+        id,
+        cidade,
+        bairro,
+        nome,
+        telefone,
+        observacao,
+        ativo,
+        CASE
+          WHEN COALESCE(ativo, true) = true
+            THEN 'ATIVO'
+          ELSE 'INATIVO'
+        END AS status,
+        criado_em
       FROM liderancas
       WHERE UPPER(TRIM(bairro)) = UPPER(TRIM($1))
-      AND COALESCE(ativo, true) = true
+        AND COALESCE(ativo, true) = true
       LIMIT 1
     `, [bairro]);
 
     if (resultado.rows.length === 0) {
       return res.status(404).json({
-        erro: "Nenhuma liderança encontrada"
+        erro: "Nenhuma liderança encontrada."
       });
     }
 
     res.json(resultado.rows[0]);
 
   } catch (erro) {
-    console.error("Erro ao buscar liderança:", erro);
+    console.error(
+      "Erro ao buscar liderança:",
+      erro
+    );
+
     res.status(500).json({
       erro: "Erro ao buscar liderança",
       detalhe: erro.message
@@ -124,47 +177,106 @@ router.post("/", async (req, res) => {
   try {
     await garantirTabelaLiderancas();
 
-    const { bairro, nome, telefone, observacao } = req.body;
+    const {
+      cidade,
+      bairro,
+      nome,
+      telefone,
+      observacao,
+      status
+    } = req.body;
 
-    if (!bairro || !nome) {
+    const cidadeLimpa =
+      String(cidade || "").trim();
+
+    const bairroLimpo =
+      String(bairro || "").trim();
+
+    const nomeLimpo =
+      String(nome || "").trim();
+
+    const telefoneLimpo =
+      String(telefone || "").trim();
+
+    const observacaoLimpa =
+      String(observacao || "").trim();
+
+    if (!cidadeLimpa || !bairroLimpo || !nomeLimpo) {
       return res.status(400).json({
-        erro: "Bairro e nome são obrigatórios."
+        erro:
+          "Cidade, bairro e nome são obrigatórios."
       });
     }
+
+    const ativo =
+      String(status || "ATIVO")
+        .toUpperCase() !== "INATIVO";
 
     const existente = await pool.query(`
       SELECT id
       FROM liderancas
-      WHERE UPPER(TRIM(bairro)) = UPPER(TRIM($1))
-      AND UPPER(TRIM(nome)) = UPPER(TRIM($2))
-      AND COALESCE(ativo, true) = true
-    `, [bairro, nome]);
+      WHERE UPPER(TRIM(cidade)) = UPPER(TRIM($1))
+        AND UPPER(TRIM(bairro)) = UPPER(TRIM($2))
+        AND UPPER(TRIM(nome)) = UPPER(TRIM($3))
+        AND COALESCE(ativo, true) = true
+    `, [
+      cidadeLimpa,
+      bairroLimpo,
+      nomeLimpo
+    ]);
 
     if (existente.rows.length > 0) {
       return res.status(400).json({
-        erro: "Esta liderança já está cadastrada neste bairro."
+        erro:
+          "Esta liderança já está cadastrada nesta cidade e neste bairro."
       });
     }
 
     const resultado = await pool.query(`
       INSERT INTO liderancas (
+        cidade,
         bairro,
         nome,
         telefone,
         observacao,
         ativo
       )
-      VALUES ($1, $2, $3, $4, true)
-      RETURNING *
-    `, [bairro, nome, telefone || null, observacao || null]);
+      VALUES ($1, $2, $3, $4, $5, $6)
+      RETURNING
+        id,
+        cidade,
+        bairro,
+        nome,
+        telefone,
+        observacao,
+        ativo,
+        CASE
+          WHEN ativo = true
+            THEN 'ATIVO'
+          ELSE 'INATIVO'
+        END AS status,
+        criado_em
+    `, [
+      cidadeLimpa,
+      bairroLimpo,
+      nomeLimpo,
+      telefoneLimpo || null,
+      observacaoLimpa || null,
+      ativo
+    ]);
 
     res.status(201).json({
-      mensagem: "Liderança cadastrada com sucesso.",
+      mensagem:
+        "Liderança cadastrada com sucesso.",
       lideranca: resultado.rows[0]
     });
 
   } catch (erro) {
-    console.error("Erro ao cadastrar liderança:", erro);
+    console.error(
+      "Erro ao cadastrar liderança:",
+      erro
+    );
+
     res.status(500).json({
       erro: "Erro ao cadastrar liderança",
       detalhe: erro.message
@@ -178,25 +290,97 @@ router.put("/:id", async (req, res) => {
     await garantirTabelaLiderancas();
 
     const { id } = req.params;
-    const { bairro, nome, telefone, observacao } = req.body;
 
-    if (!bairro || !nome) {
+    const {
+      cidade,
+      bairro,
+      nome,
+      telefone,
+      observacao,
+      status
+    } = req.body;
+
+    const cidadeLimpa =
+      String(cidade || "").trim();
+
+    const bairroLimpo =
+      String(bairro || "").trim();
+
+    const nomeLimpo =
+      String(nome || "").trim();
+
+    const telefoneLimpo =
+      String(telefone || "").trim();
+
+    const observacaoLimpa =
+      String(observacao || "").trim();
+
+    if (!cidadeLimpa || !bairroLimpo || !nomeLimpo) {
       return res.status(400).json({
-        erro: "Bairro e nome são obrigatórios."
+        erro:
+          "Cidade, bairro e nome são obrigatórios."
+      });
+    }
+
+    const ativo =
+      String(status || "ATIVO")
+        .toUpperCase() !== "INATIVO";
+
+    const existente = await pool.query(`
+      SELECT id
+      FROM liderancas
+      WHERE UPPER(TRIM(cidade)) = UPPER(TRIM($1))
+        AND UPPER(TRIM(bairro)) = UPPER(TRIM($2))
+        AND UPPER(TRIM(nome)) = UPPER(TRIM($3))
+        AND id <> $4
+        AND COALESCE(ativo, true) = true
+    `, [
+      cidadeLimpa,
+      bairroLimpo,
+      nomeLimpo,
+      id
+    ]);
+
+    if (existente.rows.length > 0) {
+      return res.status(400).json({
+        erro:
+          "Já existe outra liderança com este nome nesta cidade e neste bairro."
       });
     }
 
     const resultado = await pool.query(`
       UPDATE liderancas
       SET
-        bairro = $1,
-        nome = $2,
-        telefone = $3,
-        observacao = $4
-      WHERE id = $5
-      AND COALESCE(ativo, true) = true
-      RETURNING *
-    `, [bairro, nome, telefone || null, observacao || null, id]);
+        cidade = $1,
+        bairro = $2,
+        nome = $3,
+        telefone = $4,
+        observacao = $5,
+        ativo = $6
+      WHERE id = $7
+      RETURNING
+        id,
+        cidade,
+        bairro,
+        nome,
+        telefone,
+        observacao,
+        ativo,
+        CASE
+          WHEN ativo = true
+            THEN 'ATIVO'
+          ELSE 'INATIVO'
+        END AS status,
+        criado_em
+    `, [
+      cidadeLimpa,
+      bairroLimpo,
+      nomeLimpo,
+      telefoneLimpo || null,
+      observacaoLimpa || null,
+      ativo,
+      id
+    ]);
 
     if (resultado.rows.length === 0) {
       return res.status(404).json({
@@ -205,14 +389,19 @@ router.put("/:id", async (req, res) => {
     }
 
     res.json({
-      mensagem: "Liderança atualizada com sucesso.",
+      mensagem:
+        "Liderança atualizada com sucesso.",
       lideranca: resultado.rows[0]
     });
 
   } catch (erro) {
-    console.error("Erro ao atualizar liderança:", erro);
+    console.error(
+      "Erro ao atualizar liderança:",
+      erro
+    );
+
     res.status(500).json({
-      erro: "Erro ao atualizar liderança.",
+      erro: "Erro ao atualizar liderança",
       detalhe: erro.message
     });
   }
@@ -240,11 +429,16 @@ router.delete("/:id", async (req, res) => {
 
     res.json({
       sucesso: true,
-      mensagem: "Liderança excluída com sucesso."
+      mensagem:
+        "Liderança excluída com sucesso."
     });
 
   } catch (erro) {
-    console.error("Erro ao excluir liderança:", erro);
+    console.error(
+      "Erro ao excluir liderança:",
+      erro
+    );
+
     res.status(500).json({
       erro: "Erro ao excluir liderança",
       detalhe: erro.message

@@ -42,12 +42,85 @@ async function carregarMapaCidade() {
 
     atualizarCardsMapa(resumoBairros, demandasMapa);
     montarMapaVisual(resumoBairros);
-    montarRankingBairros(resumoBairros);
+    montarRankingCidades(resumoCidades);
 
   } catch (error) {
     console.error("Erro ao carregar mapa:", error);
     alert("Erro ao carregar mapa da cidade.");
   }
+}
+
+function montarRankingCidades(cidades) {
+  const container = document.getElementById("rankingBairros");
+
+  if (!container) {
+    return;
+  }
+
+  if (!cidades.length) {
+    container.innerHTML =
+      "<p>Nenhuma cidade com eleitores cadastrados.</p>";
+    return;
+  }
+
+  const maior = Math.max(
+    ...cidades.map(item => Number(item.total || 0)),
+    1
+  );
+
+  container.innerHTML = cidades.map(item => {
+    const total = Number(item.total || 0);
+    const largura = (total / maior) * 100;
+
+    return `
+      <div
+        class="ranking-item"
+        data-cidade="${escaparHtml(item.cidade)}"
+      >
+        <span>
+          ${escaparHtml(formatarNome(item.cidade))}
+        </span>
+
+        <div class="barra-ranking">
+          <b style="width:${largura}%"></b>
+        </div>
+
+        <strong>${total}</strong>
+      </div>
+    `;
+  }).join("");
+
+  container
+    .querySelectorAll(".ranking-item")
+    .forEach(item => {
+      item.addEventListener("click", () => {
+        selecionarCamadaCidadePeloNome(
+          item.dataset.cidade
+        );
+      });
+    });
+}
+
+function selecionarCamadaCidadePeloNome(cidade) {
+  if (!camadaBairros) {
+    return;
+  }
+
+  camadaBairros.eachLayer(camada => {
+    const nome = obterNomeMunicipioFeature(
+      camada.feature
+    );
+
+    if (
+      normalizarTexto(nome) ===
+      normalizarTexto(cidade)
+    ) {
+      selecionarCidadeNoMapa(
+        nome,
+        camada
+      );
+    }
+  });
 }
 
 function atualizarCardsMapa(bairros, demandas) {

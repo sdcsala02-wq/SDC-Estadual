@@ -3,8 +3,12 @@
 
 <head>
   <meta charset="UTF-8">
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lideranças | Xavier Online</title>
+
+  <title>
+    Lideranças | Lucas e Cássio 2027
+  </title>
 
   <link rel="stylesheet" href="css/style.css">
 
@@ -13,57 +17,378 @@
       padding: 24px 28px 40px;
     }
 
+    .cabecalho-liderancas h1 {
+      margin: 0;
+
+      font-size: 30px;
+      font-weight: 800;
+    }
+
+    .cabecalho-liderancas p {
+      margin-top: 6px;
+    }
+
     .liderancas-layout {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+
+      grid-template-columns:
+        minmax(420px, 0.9fr) minmax(480px, 1.1fr);
+
       gap: 18px;
+
+      align-items: stretch;
+    }
+
+    .liderancas-layout .painel {
+      border-radius: 16px;
     }
 
     .liderancas-layout .painel-tabela {
       grid-column: 1 / -1;
+
       overflow-x: auto;
     }
 
     .liderancas-layout table {
-      min-width: 900px;
+      width: 100%;
+      min-width: 1100px;
+
+      border-collapse: collapse;
+    }
+
+    .liderancas-layout th,
+    .liderancas-layout td {
+      padding: 15px 14px;
+
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    .liderancas-layout tbody tr {
+      transition: background 0.2s ease;
+    }
+
+    .liderancas-layout tbody tr:hover {
+      background: rgba(59, 130, 246, 0.06);
     }
 
     .form-lideranca {
       display: grid;
-      grid-template-columns: 1fr;
-      gap: 14px;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap: 16px;
     }
 
     .campo {
       display: flex;
       flex-direction: column;
+
       gap: 8px;
     }
 
+    .campo-total {
+      grid-column: 1 / -1;
+    }
+
+    .campo label {
+      font-size: 12px;
+      font-weight: 800;
+
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
     .campo input,
+    .campo select,
     .campo textarea {
       width: 100%;
+      min-height: 44px;
+
       box-sizing: border-box;
+
+      border-radius: 10px;
     }
 
     .campo textarea {
-      min-height: 120px;
+      min-height: 105px;
+
+      resize: vertical;
+    }
+
+    .acoes-form-lideranca {
+      grid-column: 1 / -1;
+
+      display: flex;
+
+      gap: 10px;
+
+      margin-top: 4px;
+    }
+
+    .acoes-form-lideranca .btn-nova {
+      flex: 1;
+
+      min-height: 44px;
+
+      justify-content: center;
+    }
+
+    .btn-cancelar-edicao {
+      display: none;
+
+      min-height: 44px;
+
+      padding: 0 20px;
+
+      border: 1px solid #475569;
+      border-radius: 10px;
+
+      background: transparent;
+      color: #cbd5e1;
+
+      font-weight: 700;
+
+      cursor: pointer;
+    }
+
+    .ranking-cabecalho {
+      display: flex;
+
+      justify-content: space-between;
+      align-items: center;
+
+      gap: 12px;
+    }
+
+    .ranking-cabecalho select {
+      min-width: 190px;
+      height: 38px;
+
+      padding: 0 10px;
+
+      border-radius: 9px;
+    }
+
+    .ranking-bairros {
+      max-height: 350px;
+
+      overflow-y: auto;
+
+      padding-right: 6px;
+    }
+
+    .filtros-liderancas {
+      display: grid;
+
+      grid-template-columns:
+        1fr 1fr 1.2fr auto;
+
+      gap: 12px;
+
+      margin-bottom: 18px;
+    }
+
+    .filtros-liderancas input,
+    .filtros-liderancas select {
+      width: 100%;
+      min-height: 42px;
+
+      box-sizing: border-box;
+
+      border-radius: 9px;
+    }
+
+    .btn-limpar-filtros {
+      min-height: 42px;
+
+      padding: 0 18px;
+
+      border: 1px solid #475569;
+      border-radius: 9px;
+
+      background: transparent;
+      color: #cbd5e1;
+
+      font-weight: 700;
+
+      cursor: pointer;
+    }
+
+    .acoes-lideranca {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 8px;
+
+      min-width: 190px;
+
+      background: transparent;
+    }
+
+    .btn-acao-lideranca {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+
+      height: 36px;
+      min-width: 86px;
+
+      padding: 0 13px;
+
+      border-radius: 8px;
+
+      font-size: 12px;
+      font-weight: 700;
+      font-family: inherit;
+
+      cursor: pointer;
+
+      transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .btn-acao-lideranca:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-editar-lideranca {
+      border: 1px solid #2563eb !important;
+
+      background: rgba(37, 99, 235, 0.16) !important;
+
+      color: #60a5fa !important;
+    }
+
+    .btn-editar-lideranca:hover {
+      background: #2563eb !important;
+
+      color: #ffffff !important;
+    }
+
+    .btn-excluir-lideranca {
+      border: 1px solid #dc2626 !important;
+
+      background: rgba(220, 38, 38, 0.14) !important;
+
+      color: #f87171 !important;
+    }
+
+    .btn-excluir-lideranca:hover {
+      background: #dc2626 !important;
+
+      color: #ffffff !important;
+    }
+
+    .icone-acao {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 13px;
+      line-height: 1;
+    }
+
+    .liderancas-layout th:last-child,
+    .liderancas-layout td:last-child {
+      width: 200px;
+      min-width: 200px;
+    }
+
+    .status-lideranca {
+      display: inline-flex;
+
+      align-items: center;
+      justify-content: center;
+
+      min-width: 72px;
+
+      padding: 5px 10px;
+
+      border-radius: 999px;
+
+      font-size: 11px;
+      font-weight: 800;
+
+      text-transform: uppercase;
+    }
+
+    .status-lideranca.ativo {
+      background: #dcfce7;
+      color: #15803d;
+    }
+
+    .status-lideranca.inativo {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+
+    .liderancas-layout th:last-child,
+    .liderancas-layout td:last-child {
+      min-width: 205px;
+    }
+
+    .liderancas-layout th:first-child,
+    .liderancas-layout td:first-child {
+      min-width: 180px;
+    }
+
+    .liderancas-layout th:nth-child(2),
+    .liderancas-layout td:nth-child(2) {
+      min-width: 145px;
+    }
+
+    @media (max-width: 1100px) {
+      .liderancas-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .liderancas-layout .painel-tabela {
+        grid-column: auto;
+      }
+
+      .filtros-liderancas {
+        grid-template-columns:
+          1fr 1fr;
+      }
     }
 
     @media (max-width: 768px) {
       .main-dashboard {
-        padding: 16px 12px 24px !important;
+        padding:
+          16px 12px 24px !important;
+
         margin-left: 0 !important;
+
         width: 100% !important;
       }
 
       .cards-modernos {
-        grid-template-columns: 1fr !important;
+        grid-template-columns:
+          1fr !important;
+
         gap: 12px;
       }
 
-      .liderancas-layout {
-        grid-template-columns: 1fr !important;
+      .liderancas-layout,
+      .form-lideranca,
+      .filtros-liderancas {
+        grid-template-columns:
+          1fr !important;
+      }
+
+      .campo-total,
+      .acoes-form-lideranca {
+        grid-column: auto;
+      }
+
+      .acoes-form-lideranca {
+        flex-direction: column;
       }
 
       .painel {
@@ -72,10 +397,17 @@
 
       .topbar:not(.dashboard-mobile-top) {
         display: block;
+
         text-align: center;
       }
 
-      .btn-nova {
+      .ranking-cabecalho {
+        flex-direction: column;
+
+        align-items: stretch;
+      }
+
+      .ranking-cabecalho select {
         width: 100%;
       }
     }
@@ -92,6 +424,8 @@
 
     <main class="conteudo main-dashboard">
 
+      <!-- MOBILE -->
+
       <header class="topbar dashboard-mobile-top">
 
         <button type="button" class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Abrir menu">
@@ -99,120 +433,314 @@
         </button>
 
         <button class="btn-sair-discreto" onclick="sairSistema()">
+
           ⇱ Sair
+
         </button>
 
       </header>
 
+      <!-- DESKTOP -->
+
       <header class="topbar">
-        <div>
-          <h2>👥 Lideranças</h2>
+
+        <div class="cabecalho-liderancas">
+
+          <h1>
+            👥 Gestão de Lideranças
+          </h1>
+
           <p class="subtitulo-dashboard">
-            Cadastro e acompanhamento por bairro
+            Cadastro e gerenciamento das lideranças políticas
+            por cidade e bairro.
           </p>
+
         </div>
+
       </header>
+
+      <!-- CARDS -->
 
       <section class="cards-modernos">
 
-        <div class="card-mod azul">
-          <h3>Total de Lideranças</h3>
-          <strong id="totalLiderancas">0</strong>
-          <p>Registros ativos</p>
+        <div class="card-mod verde">
+
+          <h3>Cidades Atendidas</h3>
+
+          <strong id="totalCidadesLiderancas">
+            0
+          </strong>
+
+          <p>
+            Municípios cadastrados
+          </p>
+
         </div>
 
-        <div class="card-mod verde">
-          <h3>Bairros Atendidos</h3>
-          <strong id="totalBairrosLiderancas">0</strong>
-          <p>Bairros com liderança</p>
+        <div class="card-mod azul">
+
+          <h3>Total de Lideranças</h3>
+
+          <strong id="totalLiderancas">
+            0
+          </strong>
+
+          <p>
+            Registros ativos
+          </p>
+
         </div>
 
         <div class="card-mod roxo">
-          <h3>Demandas Relacionadas</h3>
-          <strong id="totalDemandasLiderancas">0</strong>
-          <p>Demandas nos bairros</p>
+
+          <h3>Bairros Atendidos</h3>
+
+          <strong id="totalBairrosLiderancas">
+            0
+          </strong>
+
+          <p>
+            Bairros com liderança
+          </p>
+
         </div>
 
         <div class="card-mod laranja">
+
           <h3>Status</h3>
-          <strong>Ativo</strong>
-          <p>Controle em operação</p>
+
+          <strong>
+            Ativo
+          </strong>
+
+          <p>
+            Sistema em operação
+          </p>
+
         </div>
 
       </section>
 
+      <!-- CONTEÚDO -->
+
       <section class="liderancas-layout">
+
+        <!-- FORMULÁRIO -->
 
         <div class="painel">
 
           <div class="painel-topo">
-            <h3>Cadastrar Liderança</h3>
+
+            <h3>
+              Cadastro de Liderança
+            </h3>
+
           </div>
 
           <form id="formLideranca" class="form-lideranca">
 
             <div class="campo">
+
+              <label>Cidade</label>
+
+              <input id="cidade" type="text" placeholder="Ex: São Paulo" required>
+
+            </div>
+
+            <div class="campo">
+
               <label>Bairro</label>
-              <input type="text" id="bairro" placeholder="Ex: Boqueirão" required>
+
+              <input id="bairro" type="text" placeholder="Ex: Vila Mariana" required>
+
             </div>
 
-            <div class="campo">
+            <div class="campo campo-total">
+
               <label>Nome da Liderança</label>
-              <input type="text" id="nome" placeholder="Nome completo" required>
+
+              <input id="nome" type="text" placeholder="Nome completo" required>
+
             </div>
 
             <div class="campo">
+
               <label>Telefone</label>
-              <input type="text" id="telefone" placeholder="(13) 99999-9999">
+
+              <input id="telefone" type="text" placeholder="(11) 99999-9999">
+
             </div>
 
             <div class="campo">
-              <label>Observação</label>
-              <textarea id="observacao" placeholder="Observações sobre a liderança"></textarea>
+
+              <label>Status</label>
+
+              <select id="status">
+
+                <option value="ATIVO">
+                  Ativo
+                </option>
+
+                <option value="INATIVO">
+                  Inativo
+                </option>
+
+              </select>
+
             </div>
 
-            <button type="submit" class="btn-nova">
-              Salvar Liderança
-            </button>
+            <div class="campo campo-total">
+
+              <label>Observações</label>
+
+              <textarea id="observacao" placeholder="Informações adicionais..."></textarea>
+
+            </div>
+
+            <div class="acoes-form-lideranca">
+
+              <button class="btn-nova" type="submit" id="btnSalvarLideranca">
+
+                Salvar Liderança
+
+              </button>
+
+              <button type="button" id="btnCancelarEdicao" class="btn-cancelar-edicao">
+
+                Cancelar
+
+              </button>
+
+            </div>
 
           </form>
 
         </div>
 
+        <!-- RANKING -->
+
         <div class="painel">
 
-          <div class="painel-topo">
-            <h3>Ranking por Bairro</h3>
+          <div class="painel-topo ranking-cabecalho">
+
+            <h3>
+              Distribuição das Lideranças
+            </h3>
+
+            <select id="tipoRankingLiderancas">
+
+              <option value="cidade">
+                Ranking por cidade
+              </option>
+
+              <option value="bairro">
+                Ranking por bairro
+              </option>
+
+            </select>
+
           </div>
 
           <div id="rankingLiderancas" class="ranking-bairros">
-            <p>Carregando...</p>
+
+            <p>
+              Carregando...
+            </p>
+
           </div>
 
         </div>
 
+        <!-- TABELA -->
+
         <div class="painel painel-tabela demandas-bairro">
 
           <div class="painel-topo">
-            <h3>Lideranças Cadastradas</h3>
+
+            <h3>
+              Lideranças Cadastradas
+            </h3>
+
+          </div>
+
+          <div class="filtros-liderancas">
+
+            <select id="filtroCidadeLideranca">
+
+              <option value="">
+                Todas as cidades
+              </option>
+
+            </select>
+
+            <select id="filtroBairroLideranca">
+
+              <option value="">
+                Todos os bairros
+              </option>
+
+            </select>
+
+            <input type="search" id="buscaLideranca" placeholder="Buscar por nome, telefone ou observação">
+
+            <button type="button" class="btn-limpar-filtros" id="btnLimparFiltrosLideranca">
+
+              Limpar
+
+            </button>
+
           </div>
 
           <table>
 
             <thead>
+
               <tr>
-                <th>Bairro</th>
-                <th>Liderança</th>
-                <th>Telefone</th>
-                <th>Observação</th>
-                <th>Ações</th>
+
+                <th>
+                  Liderança
+                </th>
+
+                <th>
+                  Telefone
+                </th>
+
+                <th>
+                  Cidade
+                </th>
+
+                <th>
+                  Bairro
+                </th>
+
+                <th>
+                  Status
+                </th>
+
+                <th>
+                  Observação
+                </th>
+
+                <th>
+                  Ações
+                </th>
+
               </tr>
+
             </thead>
 
             <tbody id="listaLiderancas">
+
               <tr>
-                <td colspan="5">Carregando lideranças...</td>
+
+                <td colspan="7">
+
+                  Carregando lideranças...
+
+                </td>
+
               </tr>
+
             </tbody>
 
           </table>
@@ -225,60 +753,110 @@
 
   </div>
 
-  <script src="js/liderancas.js"></script>
   <script src="js/auth.js"></script>
+  <script src="js/liderancas.js?v=2"></script>
+  <script src="js/sidebar.js"></script>
   <script src="js/app.js"></script>
 
   <script>
     function toggleSidebar() {
-      const sidebar = document.querySelector(".sidebar");
-      const overlay = document.querySelector(".sidebar-overlay");
+      const sidebar =
+        document.querySelector(".sidebar");
 
-      if (sidebar) sidebar.classList.toggle("active");
-      if (overlay) overlay.classList.toggle("active");
+      const overlay =
+        document.querySelector(
+          ".sidebar-overlay"
+        );
 
-      document.body.classList.toggle("menu-aberto");
+      if (sidebar) {
+        sidebar.classList.toggle(
+          "active"
+        );
+      }
+
+      if (overlay) {
+        overlay.classList.toggle(
+          "active"
+        );
+      }
+
+      document.body.classList.toggle(
+        "menu-aberto"
+      );
     }
 
     function fecharSidebar() {
-      const sidebar = document.querySelector(".sidebar");
-      const overlay = document.querySelector(".sidebar-overlay");
+      const sidebar =
+        document.querySelector(".sidebar");
 
-      if (sidebar) sidebar.classList.remove("active");
-      if (overlay) overlay.classList.remove("active");
+      const overlay =
+        document.querySelector(
+          ".sidebar-overlay"
+        );
 
-      document.body.classList.remove("menu-aberto");
+      if (sidebar) {
+        sidebar.classList.remove(
+          "active"
+        );
+      }
+
+      if (overlay) {
+        overlay.classList.remove(
+          "active"
+        );
+      }
+
+      document.body.classList.remove(
+        "menu-aberto"
+      );
     }
 
     async function sairSistema() {
       try {
-        await fetch("/api/auth/logout", {
-          method: "POST",
-          credentials: "include"
-        });
+        await fetch(
+          "/api/auth/logout",
+          {
+            method: "POST",
+            credentials: "include"
+          }
+        );
       } catch (erro) {
-        console.error("Erro ao sair:", erro);
+        console.error(
+          "Erro ao sair:",
+          erro
+        );
       }
 
       localStorage.clear();
       sessionStorage.clear();
-      window.location.href = "/index.html";
+
+      window.location.href =
+        "/index.html";
     }
 
-    document.querySelectorAll(".menu a").forEach(link => {
-      const paginaAtual = window.location.pathname.split("/").pop();
-      const href = link.getAttribute("href");
+    document
+      .querySelectorAll(".menu a")
+      .forEach(link => {
+        const paginaAtual =
+          window.location.pathname
+            .split("/")
+            .pop();
 
-      if (href === paginaAtual) {
-        link.classList.add("active");
-      }
+        const href =
+          link.getAttribute("href");
 
-      link.addEventListener("click", fecharSidebar);
-    });
+        if (href === paginaAtual) {
+          link.classList.add(
+            "active"
+          );
+        }
+
+        link.addEventListener(
+          "click",
+          fecharSidebar
+        );
+      });
   </script>
-
-  <script src="js/sidebar.js"></script>
-  <script src="js/app.js"></script>
 
 </body>
 
